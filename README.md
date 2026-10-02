@@ -12,7 +12,7 @@ Pipeline:
 
 1. Resolve each seed through Qloo search.
 2. Build a stable set of Qloo entity IDs.
-3. Query Qloo insights across tags, brands, films, artists, and places.
+3. Query Qloo insights across destinations, brands, films, artists, and places.
 4. Normalize affinity evidence.
 5. Synthesize a creative brief from only the returned evidence.
 6. Display the complete tool trace and unresolved domains.
@@ -32,7 +32,7 @@ Open http://127.0.0.1:8788
 ## Environment
 
 - `QLOO_API_KEY` — required
-- `QLOO_BASE_URL` — defaults to `https://api.qloo.com`; hackathon API base can be supplied without code changes
+- `QLOO_BASE_URL` — defaults to `https://hackathon.api.qloo.com` for hackathon keys
 
 ## API
 

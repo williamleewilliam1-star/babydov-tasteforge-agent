@@ -4,9 +4,9 @@ import {
   validateInput
 } from "../src/qloo-core.js";
 
-const DEFAULT_BASE = "https://api.qloo.com";
+const DEFAULT_BASE = "https://hackathon.api.qloo.com";
 const DOMAIN_FILTERS = {
-  tags: "urn:tag",
+  destinations: "urn:entity:destination",
   brands: "urn:entity:brand",
   films: "urn:entity:movie",
   artists: "urn:entity:artist",

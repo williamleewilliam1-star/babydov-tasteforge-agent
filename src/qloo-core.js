@@ -54,14 +54,14 @@ function firstNames(groups, key, take = 3) {
 }
 
 export function buildCreativeBrief({ objective, seeds, groups }) {
-  const tags = firstNames(groups, "tags", 4);
+  const destinations = firstNames(groups, "destinations", 3);
   const brands = firstNames(groups, "brands", 3);
   const films = firstNames(groups, "films", 3);
   const artists = firstNames(groups, "artists", 3);
   const places = firstNames(groups, "places", 3);
 
   const thesisParts = [
-    tags.length ? `Cultural codes: ${tags.join(", ")}.` : "",
+    destinations.length ? `Destination adjacency: ${destinations.join(", ")}.` : "",
     brands.length ? `Brand adjacency: ${brands.join(", ")}.` : "",
     films.length ? `Cinematic language: ${films.join(", ")}.` : ""
   ].filter(Boolean);
@@ -99,7 +99,7 @@ export function buildCreativeBrief({ objective, seeds, groups }) {
     ],
     evidence_summary: {
       seed_count: seeds.length,
-      tag_count: (groups.tags || []).length,
+      destination_count: (groups.destinations || []).length,
       brand_count: (groups.brands || []).length,
       film_count: (groups.films || []).length,
       artist_count: (groups.artists || []).length,

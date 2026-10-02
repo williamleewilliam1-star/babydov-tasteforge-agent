@@ -44,14 +44,14 @@ test("validateInput requires two seeds and caps at four", () => {
     objective: "Launch a product",
     seeds: [{ name: "A" }, { name: "B" }],
     groups: {
-      tags: [{ name: "minimalist interiors" }],
+      destinations: [{ name: "Kyoto" }],
       brands: [],
       films: [{ name: "Film A" }],
       artists: [],
       places: []
     }
   });
-  assert.match(brief.thesis, /minimalist interiors/);
+  assert.match(brief.thesis, /Kyoto/);
   assert.match(brief.moves[1].action, /Do not invent brand adjacency/);
   assert.match(brief.moves[2].action, /Leave music direction open/);
   assert.equal(brief.evidence_summary.film_count, 1);
