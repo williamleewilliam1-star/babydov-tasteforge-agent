@@ -2,128 +2,171 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { executeAgent } from "../api/forge.js";
 
-const SUPPORTED = [
-  "urn:entity:destination",
-  "urn:entity:brand",
-  "urn:entity:movie",
-  "urn:entity:artist",
-  "urn:entity:place"
-];
-
-function okJson(payload) {
-  return new Response(JSON.stringify(payload), {
-    status: 200,
-    headers: { "content-type": "application/json" }
-  });
-}
-
-function installMock({ failType = null } = {}) {
-  const calls = [];
-  const previousFetch = globalThis.fetch;
-  const previousKey = process.env.QLOO_API_KEY;
-  const previousBase = process.env.QLOO_BASE_URL;
-
-  process.env.QLOO_API_KEY = "test-hackathon-key";
-  delete process.env.QLOO_BASE_URL;
-
-  globalThis.fetch = async (input, init = {}) => {
-    const url = new URL(String(input));
-    calls.push({ url, init });
-
-    assert.equal(url.host, "hackathon.api.qloo.com");
-    assert.equal(init.headers["x-api-key"], "test-hackathon-key");
-    if (url.pathname === "/search") {
-      const query = url.searchParams.get("query");
-      assert.ok(query);
-      return okJson({
-        results: [{
-          entity_id: "urn:entity:seed:" + encodeURIComponent(query),
-          name: query,
-          affinity: 1
-        }]
-      });
+function execution(operation, input, index) {
+  const result = {
+    schema_version: "1.0-preview.1",
+    operation,
+    status: "ok",
+    summary: `${operation} fixture`,
+    warnings: [],
+    provenance: {
+      contract_version: "1.0.0",
+      endpoint: "https://hackathon.api.qloo.com",
+      strategy: "test-fixture"
     }
-
-    if (url.pathname === "/v2/insights") {
-      const type = url.searchParams.get("filter.type");
-      assert.ok(SUPPORTED.includes(type));
-      const signals = url.searchParams.get("signal.interests.entities");
-      assert.ok(signals?.includes("urn:entity:seed:"));
-      if (type === failType) {
-        return new Response(JSON.stringify({ error: { message: "not available" } }), {
-          status: 403,
-          headers: { "content-type": "application/json" }
-        });
-      }
-      return okJson({
-        results: [{
-          entity_id: type + ":fixture",
-          name: type.split(":").at(-1) + " fixture",
-          affinity: 0.88
-        }]
-      });
-    }
-
-    throw new Error("Unexpected Qloo path: " + url.pathname);
   };
+
+  if (operation === "describe") {
+    result.results = [{
+      id: `urn:entity:fixture:${encodeURIComponent(input.entity)}`,
+      name: input.entity,
+      type: "urn:entity:fixture",
+      affinity: 1
+    }];
+  } else if (operation === "entity_tags") {
+    result.results = [{
+      id: "urn:tag:minimalism",
+      name: "Minimalism",
+      type: "urn:tag",
+      affinity: 0.91
+    }];
+  } else if (operation === "recommend") {
+    result.results = [{
+      id: `urn:entity:${input.target_type}:fixture`,
+      name: `${input.target_type} fixture`,
+      type: `urn:entity:${input.target_type}`,
+      affinity: 0.88
+    }];
+  }
 
   return {
+    operation,
+    transport: { kind: "direct", name: "fixture", remote: false },
+    correlationId: `corr-${index}`,
+    durationMs: 5 + index,
+    result
+  };
+}
+
+function fakeExecutor({ failTarget = null } = {}) {
+  const calls = [];
+  return {
     calls,
-    restore() {
-      globalThis.fetch = previousFetch;
-      if (previousKey === undefined) delete process.env.QLOO_API_KEY;
-      else process.env.QLOO_API_KEY = previousKey;
-      if (previousBase === undefined) delete process.env.QLOO_BASE_URL;
-      else process.env.QLOO_BASE_URL = previousBase;
+    transport: { kind: "direct", name: "fixture", remote: false },
+    resolution: {
+      name: "native",
+      tag_strategy: "qloo",
+      uses_model: false,
+      fallback: "none"
+    },
+    async execute(operation, input) {
+      calls.push({ operation, input });
+      if (operation === "recommend" && input.target_type === failTarget) {
+        const error = new Error("fixture upstream failure");
+        error.code = "QLOO_UPSTREAM";
+        error.layer = "qloo";
+        error.retryable = true;
+        error.recovery = "retry later";
+        throw error;
+      }
+      return execution(operation, input, calls.length);
     }
   };
 }
-test("executeAgent uses hackathon Qloo routes and supported domains", async () => {
-  const mock = installMock();
-  try {
-    const result = await executeAgent({
-      seeds: ["Jil Sander", "Brian Eno"],
-      objective: "Build a campaign",
-      market: "Tokyo"
-    });
 
-    assert.equal(result.seeds.length, 2);
-    assert.equal(mock.calls.filter(x => x.url.pathname === "/search").length, 2);
-    assert.equal(mock.calls.filter(x => x.url.pathname === "/v2/insights").length, 5);
+test("TasteForge uses only official Qloo workflows", async () => {
+  const executor = fakeExecutor();
+  const result = await executeAgent({
+    seeds: ["Jil Sander", "Brian Eno"],
+    objective: "Build a campaign",
+    market: "Tokyo"
+  }, { executor });
 
-    const filterTypes = mock.calls
-      .filter(x => x.url.pathname === "/v2/insights")
-      .map(x => x.url.searchParams.get("filter.type"));
-    assert.deepEqual(filterTypes, SUPPORTED);
+  assert.deepEqual(
+    executor.calls.map(call => call.operation),
+    ["describe", "describe", "entity_tags", "recommend", "recommend", "recommend", "recommend"]
+  );
 
-    assert.equal(result.groups.destinations.length, 1);
-    assert.equal(result.groups.brands.length, 1);
-    assert.equal(result.groups.films.length, 1);
-    assert.equal(result.groups.artists.length, 1);
-    assert.equal(result.groups.places.length, 1);
-    assert.equal(result.trace.filter(x => x.status === "ok").length, 7);
-  } finally {
-    mock.restore();
-  }
+  const recommendCalls = executor.calls.filter(call => call.operation === "recommend");
+  assert.deepEqual(
+    recommendCalls.map(call => call.input.target_type),
+    ["brand", "movie", "artist", "place"]
+  );
+  assert.ok(recommendCalls.every(call => call.input.explain === true));
+  assert.ok(recommendCalls.every(call => call.input.signals.length === 2));
+
+  assert.equal(result.integration.surface, "@qloo/qloo-harness");
+  assert.equal(result.integration.workflow_contract_version, "1.0.0");
+  assert.equal(result.integration.result_schema_version, "1.0-preview.1");
+  assert.equal(result.integration.fallback, "none");
+
+  assert.equal(result.seeds.length, 2);
+  assert.equal(result.groups.tags[0].name, "Minimalism");
+  assert.equal(result.groups.brands[0].name, "brand fixture");
+  assert.equal(result.groups.films[0].name, "movie fixture");
+  assert.equal(result.groups.artists[0].name, "artist fixture");
+  assert.equal(result.groups.places[0].name, "place fixture");
+
+  assert.equal(result.trace.length, 7);
+  assert.ok(result.trace.every(row => row.correlation_id));
+  assert.ok(result.trace.every(row => row.provenance));
 });
 
-test("one unsupported insight domain does not destroy the whole run", async () => {
-  const mock = installMock({ failType: "urn:entity:destination" });
-  try {
-    const result = await executeAgent({
-      seeds: ["Jil Sander", "Brian Eno"],
+test("one failed official workflow does not fabricate that domain", async () => {
+  const executor = fakeExecutor({ failTarget: "brand" });
+  const result = await executeAgent({
+    seeds: ["Jil Sander", "Brian Eno"],
+    objective: "Build a campaign",
+    market: "Global"
+  }, { executor });
+
+  assert.deepEqual(result.groups.brands, []);
+  assert.equal(result.groups.films.length, 1);
+  assert.equal(result.groups.artists.length, 1);
+  assert.equal(result.groups.places.length, 1);
+
+  const failed = result.trace.find(
+    row => row.operation === "recommend" && row.target_type === "brand"
+  );
+  assert.equal(failed?.status, "error");
+  assert.equal(failed?.code, "QLOO_UPSTREAM");
+  assert.equal(failed?.layer, "qloo");
+  assert.equal(failed?.retryable, true);
+  assert.equal(failed?.recovery, "retry later");
+});
+
+test("fewer than two resolved describe workflows blocks synthesis", async () => {
+  let described = 0;
+  const executor = fakeExecutor();
+  const original = executor.execute.bind(executor);
+  executor.execute = async (operation, input) => {
+    if (operation === "describe") {
+      described += 1;
+      if (described === 2) {
+        return {
+          operation,
+          transport: executor.transport,
+          correlationId: "corr-needs-input",
+          durationMs: 3,
+          result: {
+            schema_version: "1.0-preview.1",
+            operation,
+            status: "needs_input",
+            warnings: ["ambiguous seed"],
+            provenance: { contract_version: "1.0.0" }
+          }
+        };
+      }
+    }
+    return original(operation, input);
+  };
+
+  await assert.rejects(
+    executeAgent({
+      seeds: ["Clear Seed", "Ambiguous Seed"],
       objective: "Build a campaign",
       market: "Global"
-    });
-
-    assert.deepEqual(result.groups.destinations, []);
-    assert.equal(result.groups.brands.length, 1);
-    const failed = result.trace.find(
-      x => x.step === "cross_domain_insight" && x.group === "destinations"
-    );
-    assert.equal(failed?.status, "error");
-    assert.match(failed?.error || "", /HTTP 403/);
-  } finally {
-    mock.restore();
-  }
+    }, { executor }),
+    /could not resolve at least two seeds/i
+  );
 });
