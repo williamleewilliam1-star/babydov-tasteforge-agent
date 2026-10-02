@@ -7,7 +7,7 @@ TasteForge keeps the trust boundary intentionally small.
 - `QLOO_API_KEY` is read only in the server-side API route.
 - The browser never receives the API key.
 - The key is never placed in a URL or query parameter.
-- Hackathon authentication uses the documented `X-Api-Key` header.
+- `QLOO_API_KEY` is consumed server-side by the pinned official Qloo harness; application code does not manually expose or echo the credential.
 
 ## Input handling
 
@@ -17,9 +17,10 @@ TasteForge keeps the trust boundary intentionally small.
 
 ## External calls
 
-- Qloo requests have a 12-second timeout.
-- Only the configured Qloo base URL plus known endpoint paths are used.
-- One failed insight domain does not silently fabricate replacements; that domain returns an empty evidence group and an error trace entry.
+- Qloo execution uses the official versioned workflow boundary from `@qloo/qloo-harness@0.1.26`.
+- `QLOO_BASE_URL` and `QLOO_TRUSTED_BASE_URL` default to the hackathon host.
+- The harness does not silently fall back to another transport.
+- One failed workflow does not silently fabricate replacements; that domain stays empty and the error metadata is retained in the trace.
 
 ## Evidence policy
 

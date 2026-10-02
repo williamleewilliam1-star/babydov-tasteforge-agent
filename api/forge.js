@@ -1,16 +1,20 @@
+import { createDirectQlooWorkflowExecutorFromEnvironment } from "@qloo/qloo-harness";
 import {
   buildCreativeBrief,
   normalizeItems,
   validateInput
 } from "../src/qloo-core.js";
 
-const DEFAULT_BASE = "https://hackathon.api.qloo.com";
-const DOMAIN_FILTERS = {
-  destinations: "urn:entity:destination",
-  brands: "urn:entity:brand",
-  films: "urn:entity:movie",
-  artists: "urn:entity:artist",
-  places: "urn:entity:place"
+const HACKATHON_BASE = "https://hackathon.api.qloo.com";
+const HARNESS_VERSION = "0.1.26";
+const WORKFLOW_CONTRACT_VERSION = "1.0.0";
+const RESULT_SCHEMA_VERSION = "1.0-preview.1";
+
+const RECOMMENDATIONS = {
+  brands: "brand",
+  films: "movie",
+  artists: "artist",
+  places: "place"
 };
 
 function json(res, status, payload) {
@@ -20,105 +24,128 @@ function json(res, status, payload) {
   res.end(JSON.stringify(payload));
 }
 
-function apiConfig() {
-  const key = String(process.env.QLOO_API_KEY || "").trim();
-  if (!key) throw new Error("QLOO_API_KEY is not configured.");
+function createOfficialExecutor(env = process.env) {
+  const resolvedEnv = {
+    ...env,
+    QLOO_BASE_URL: env.QLOO_BASE_URL || HACKATHON_BASE,
+    QLOO_TRUSTED_BASE_URL: env.QLOO_TRUSTED_BASE_URL || HACKATHON_BASE
+  };
+  return createDirectQlooWorkflowExecutorFromEnvironment({ env: resolvedEnv });
+}
+
+function traceRow(execution, meta = {}) {
+  const result = execution?.result || {};
   return {
-    key,
-    base: String(process.env.QLOO_BASE_URL || DEFAULT_BASE).replace(/\/$/, "")
+    step: "qloo_workflow",
+    operation: execution?.operation || meta.operation || null,
+    group: meta.group || null,
+    seed: meta.seed || null,
+    target_type: meta.target_type || null,
+    status: result.status || "unknown",
+    result_count:
+      Number.isFinite(Number(result.result_count))
+        ? Number(result.result_count)
+        : normalizeItems(result, 100).length,
+    correlation_id: execution?.correlationId || null,
+    duration_ms: execution?.durationMs ?? null,
+    warnings: Array.isArray(result.warnings) ? result.warnings : [],
+    provenance: result.provenance || null
   };
 }
-async function qlooGet(config, path, params) {
-  const url = new URL(config.base + path);
-  for (const [key, value] of Object.entries(params || {})) {
-    if (value !== "" && value !== null && value !== undefined) {
-      url.searchParams.set(key, String(value));
-    }
-  }
-  const response = await fetch(url, {
-    headers: {
-      "x-api-key": config.key,
-      "accept": "application/json",
-      "user-agent": "BABYDOV-TasteForge/0.1"
-    },
-    signal: AbortSignal.timeout(12000)
-  });
-  const raw = await response.text();
-  let data = {};
-  try { data = JSON.parse(raw); } catch { data = { raw: raw.slice(0, 500) }; }
-  if (!response.ok) {
-    const err = new Error(`Qloo ${path} failed with HTTP ${response.status}`);
-    err.status = response.status;
-    err.detail = data;
-    throw err;
-  }
-  return data;
+
+function failureRow(operation, error, meta = {}) {
+  return {
+    step: "qloo_workflow",
+    operation,
+    group: meta.group || null,
+    seed: meta.seed || null,
+    target_type: meta.target_type || null,
+    status: "error",
+    error: error?.message || String(error),
+    code: error?.code || null,
+    layer: error?.layer || null,
+    retryable: Boolean(error?.retryable),
+    recovery: error?.recovery || null
+  };
 }
 
-async function resolveSeed(config, seed) {
-  const payload = await qlooGet(config, "/search", { query: seed, limit: 5 });
-  const candidates = normalizeItems(payload, 5);
-  return candidates[0] || null;
-}
-async function getDomain(config, filterType, entityIds) {
-  return qlooGet(config, "/v2/insights", {
-    "filter.type": filterType,
-    "signal.interests.entities": entityIds.join(","),
-    take: 6
-  });
+async function runWorkflow(executor, operation, input, trace, meta = {}) {
+  try {
+    const execution = await executor.execute(operation, input);
+    trace.push(traceRow(execution, { operation, ...meta }));
+    return execution;
+  } catch (error) {
+    trace.push(failureRow(operation, error, meta));
+    return null;
+  }
 }
 
-async function executeAgent(input) {
-  const config = apiConfig();
+export async function executeAgent(input, options = {}) {
+  const executor = options.executor || createOfficialExecutor(options.env || process.env);
+  if (!executor) {
+    throw new Error("Official Qloo workflow executor is not configured.");
+  }
+
   const trace = [];
   const resolved = [];
 
   for (const seed of input.seeds) {
-    try {
-      const entity = await resolveSeed(config, seed);
-      if (!entity?.id) {
-        trace.push({ step: "resolve_seed", seed, status: "no_match" });
-        continue;
-      }
-      resolved.push({ ...entity, source_seed: seed });
-      trace.push({
-        step: "resolve_seed",
-        seed,
-        status: "ok",
-        entity_id: entity.id,
-        entity_name: entity.name
-      });
-    } catch (error) {
-      trace.push({ step: "resolve_seed", seed, status: "error", error: error.message });
-    }
+    const execution = await runWorkflow(
+      executor,
+      "describe",
+      { entity: seed },
+      trace,
+      { seed }
+    );
+    if (!execution || execution.result?.status !== "ok") continue;
+
+    const described = normalizeItems(execution.result, 1)[0];
+    resolved.push({
+      ...(described || { id: "", name: seed, type: null, affinity: null, image: null }),
+      source_seed: seed
+    });
   }
 
   if (resolved.length < 2) {
-    throw new Error("Qloo could not resolve at least two seeds. Try more specific cultural references.");
+    throw new Error(
+      "Qloo could not resolve at least two seeds through the official describe workflow."
+    );
   }
-  const ids = [...new Set(resolved.map(x => x.id))];
-  const groups = {};
 
-  for (const [group, filterType] of Object.entries(DOMAIN_FILTERS)) {
-    try {
-      const payload = await getDomain(config, filterType, ids);
-      groups[group] = normalizeItems(payload, 6);
-      trace.push({
-        step: "cross_domain_insight",
-        group,
-        filter_type: filterType,
-        status: "ok",
-        result_count: groups[group].length
-      });
-    } catch (error) {
-      groups[group] = [];
-      trace.push({
-        step: "cross_domain_insight",
-        group,
-        filter_type: filterType,
-        status: "error",
-        error: error.message
-      });
+  const groups = {
+    tags: [],
+    brands: [],
+    films: [],
+    artists: [],
+    places: []
+  };
+
+  const tagExecution = await runWorkflow(
+    executor,
+    "entity_tags",
+    { entities: input.seeds, limit: 8 },
+    trace,
+    { group: "tags" }
+  );
+  if (tagExecution?.result?.status === "ok") {
+    groups.tags = normalizeItems(tagExecution.result, 8);
+  }
+
+  for (const [group, targetType] of Object.entries(RECOMMENDATIONS)) {
+    const execution = await runWorkflow(
+      executor,
+      "recommend",
+      {
+        target_type: targetType,
+        signals: input.seeds,
+        explain: true,
+        limit: 6
+      },
+      trace,
+      { group, target_type: targetType }
+    );
+    if (execution?.result?.status === "ok") {
+      groups[group] = normalizeItems(execution.result, 6);
     }
   }
 
@@ -133,19 +160,31 @@ async function executeAgent(input) {
     powered_by: "Qloo Taste AI",
     generated_at: new Date().toISOString(),
     market: input.market || null,
+    integration: {
+      surface: "@qloo/qloo-harness",
+      harness_version: HARNESS_VERSION,
+      workflow_contract_version: WORKFLOW_CONTRACT_VERSION,
+      result_schema_version: RESULT_SCHEMA_VERSION,
+      transport: executor.transport || null,
+      resolution: executor.resolution || null,
+      fallback: "none"
+    },
     seeds: resolved,
     groups,
     brief,
     trace
   };
 }
+
 export default async function handler(req, res) {
   if (req.method === "GET") {
     return json(res, 200, {
       ok: true,
       service: "TasteForge Agent",
       qloo_configured: Boolean(process.env.QLOO_API_KEY),
-      version: "0.1.0"
+      qloo_surface: "@qloo/qloo-harness",
+      workflow_contract_version: WORKFLOW_CONTRACT_VERSION,
+      version: "0.2.0"
     });
   }
   if (req.method !== "POST") {
@@ -154,15 +193,15 @@ export default async function handler(req, res) {
 
   try {
     const input = validateInput(req.body || {});
-    const result = await executeAgent(input);
-    return json(res, 200, result);
+    return json(res, 200, await executeAgent(input));
   } catch (error) {
-    const status = String(error.message).includes("QLOO_API_KEY") ? 503 : 400;
+    const message = error?.message || "Unexpected error";
+    const status = message.includes("not configured") ? 503 : 400;
     return json(res, status, {
-      error: error.message,
-      detail: error.detail || null
+      error: message,
+      code: error?.code || null,
+      layer: error?.layer || null,
+      retryable: Boolean(error?.retryable)
     });
   }
 }
-
-export { executeAgent };

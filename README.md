@@ -1,28 +1,51 @@
 # TasteForge Agent
 
-TasteForge is a Qloo-powered cultural intelligence agent for creative direction.
+TasteForge is an evidence-first cultural intelligence agent for creative direction, built on the official Qloo Agentic Hackathon workflow contract.
 
-Give it 2-4 cultural seeds (artists, brands, films, destinations, places) and an objective. The agent resolves those seeds through Qloo, queries cross-domain taste affinities, and builds a campaign direction whose claims remain traceable to Qloo evidence.
+Give it 2–4 cultural seeds (artists, brands, films, places) and a campaign objective. TasteForge asks Qloo to resolve and describe those seeds, extract shared cultural tags, and recommend adjacent brands, films, artists, and places. The creative brief is synthesized only from returned Qloo evidence.
 
 ## Why Qloo matters
 
-A generic LLM can write a plausible moodboard. TasteForge is intentionally different: it refuses to invent missing cultural evidence and shows the exact Qloo tool trace behind each direction.
+A generic LLM can produce a plausible moodboard. TasteForge deliberately does something different:
+
+- Qloo resolves the cultural references.
+- Qloo supplies cross-domain taste evidence.
+- TasteForge exposes operation status, correlation IDs, timing, warnings, and provenance.
+- A failed domain stays empty instead of being replaced with an invented recommendation.
+
+## Official Qloo workflow
+
+Runtime dependency: `@qloo/qloo-harness@0.1.26`.
+
+Pinned workflow contract:
+
+- contract: `1.0.0`
+- result schema: `1.0-preview.1`
+- fallback: none
 
 Pipeline:
 
-1. Resolve each seed through Qloo search.
-2. Build a stable set of Qloo entity IDs.
-3. Query Qloo insights across destinations, brands, films, artists, and places.
-4. Normalize affinity evidence.
-5. Synthesize a creative brief from only the returned evidence.
-6. Display the complete tool trace and unresolved domains.
+1. `describe` each seed through the official Qloo executor.
+2. Require at least two successfully resolved seeds.
+3. `entity_tags` over the seed set for cultural concepts.
+4. `recommend(target_type=brand)`.
+5. `recommend(target_type=movie)`.
+6. `recommend(target_type=artist)`.
+7. `recommend(target_type=place)`.
+8. Build the brief only from those workflow results.
+9. Return normalized evidence plus the complete workflow trace.
+
+See `docs/QLOO_WORKFLOW_CONTRACT.md`.
 
 ## Local run
 
+Requires Node.js 20+.
+
 ```bash
 cp .env.example .env
-# add QLOO_API_KEY
+# add QLOO_API_KEY to .env
 set -a; source .env; set +a
+npm install
 npm test
 npm run dev
 ```
@@ -31,8 +54,13 @@ Open http://127.0.0.1:8788
 
 ## Environment
 
-- `QLOO_API_KEY` — required
-- `QLOO_BASE_URL` — defaults to `https://hackathon.api.qloo.com` for hackathon keys
+```bash
+QLOO_API_KEY=...
+QLOO_BASE_URL=https://hackathon.api.qloo.com
+QLOO_TRUSTED_BASE_URL=https://hackathon.api.qloo.com
+```
+
+The key stays server-side. There is no runtime transport fallback.
 
 ## API
 
@@ -47,25 +75,33 @@ Open http://127.0.0.1:8788
 ```
 
 The response contains:
-- resolved Qloo seeds
-- cross-domain evidence groups
+
+- Qloo-resolved seed evidence
+- cultural tags
+- brand / film / artist / place recommendations
 - evidence-first creative brief
-- complete agent tool trace
+- official workflow metadata and provenance
+- complete tool trace
+
+## Tests
+
+The deterministic test suite does not require an API key. It injects a fake implementation of the official Qloo executor and verifies:
+
+- exact workflow ordering
+- official target types
+- no silent fallback
+- provenance/correlation IDs in the trace
+- one failed domain does not fabricate evidence
+- ambiguous/unresolved seeds block synthesis
+- creative brief missing-data behavior
+
+Live Qloo tests are added only after the hackathon key is available and must never print the key.
 
 ## Hackathon
 
-Built during the Qloo Agentic Hackathon submission period (Sep 30-Oct 30, 2026).
+Qloo Agentic Hackathon · Sep 30–Oct 30, 2026.
 
-Submission requirements targeted:
-- functional externally hosted demo
-- public source repository
-- open-source license
-- genuine Qloo API integration
-- coherent product experience
-
-## Status
-
-MVP scaffold complete. Live Qloo execution requires a hackathon API key.
+API-key request: submitted and confirmed. The key is expected by email and is not committed to the repository.
 
 ## License
 
