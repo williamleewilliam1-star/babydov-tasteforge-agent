@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TasteForge Agent — Qloo-powered creative direction</title>
+  <meta name="description" content="Evidence-first cultural intelligence agent powered by Qloo Taste AI." />
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <main class="shell">
+    <header class="hero">
+      <div class="eyebrow">QLOO AGENTIC HACKATHON · 2026</div>
+      <h1>TasteForge Agent</h1>
+      <p class="lede">Turn a few real cultural references into a cross-domain creative direction grounded in Qloo’s taste graph.</p>
+    </header>
+
+    <section class="panel">
+      <form id="forge-form">
+        <label>Campaign objective
+          <textarea id="objective" rows="3">Create a quiet-luxury launch campaign for a cinematic mobile LUT collection.</textarea>
+        </label>
+        <label>Target market / context
+          <input id="market" value="Tokyo + global creative audience" />
+        </label>
+        <div class="seed-grid">
+          <label>Seed 1<input class="seed" value="Jil Sander" /></label>
+          <label>Seed 2<input class="seed" value="Brian Eno" /></label>
+          <label>Seed 3<input class="seed" value="Lost in Translation" /></label>
+          <label>Seed 4<input class="seed" value="Kyoto" /></label>
+        </div>
+        <button id="run" type="submit">Forge cultural direction</button>
+      </form>
+      <p class="fine">TasteForge does not invent Qloo results. Missing domains remain explicitly unresolved.</p>
+    </section>
+
+    <section id="status" class="panel status">
+      <strong>Ready.</strong> Run the agent to see its tool trace and evidence.
+    </section>
+
+    <section id="result" class="hidden">
+      <div class="metrics" id="metrics"></div>
+      <section class="panel">
+        <div class="eyebrow">AGENT SYNTHESIS</div>
+        <h2 id="brief-title"></h2>
+        <p id="thesis"></p>
+        <div id="moves" class="moves"></div>
+      </section>
+      <section class="panel">
+        <div class="eyebrow">QLOO EVIDENCE</div>
+        <h2>Resolved seeds</h2>
+        <div id="resolved" class="cards"></div>
+        <h2>Cross-domain taste map</h2>
+        <div id="domains" class="domains"></div>
+      </section>
+
+      <section class="panel">
+        <div class="eyebrow">AUDIT TRAIL</div>
+        <h2>Agent tool trace</h2>
+        <ol id="trace" class="trace"></ol>
+      </section>
+    </section>
+
+    <footer>
+      <span>TasteForge Agent · BABYDOV</span>
+      <span>Powered by Qloo Taste AI</span>
+    </footer>
+  </main>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

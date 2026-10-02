@@ -1,0 +1,14 @@
+{
+  "name": "babydov-tasteforge-agent",
+  "version": "0.1.0",
+  "private": false,
+  "type": "module",
+  "description": "Qloo-powered cultural intelligence agent for evidence-first creative direction.",
+  "scripts": {
+    "test": "node --test",
+    "dev": "node dev-server.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
