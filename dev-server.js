@@ -2,8 +2,8 @@ import http from "node:http";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { executeAgent } from "./api/forge.js";
 import { validateInput } from "./src/qloo-core.js";
+import { createOfficialExecutor, executeTasteForge } from "./src/qloo-official.js";
 
 const root = path.dirname(fileURLToPath(import.meta.url));
 const publicDir = path.join(root, "public");
@@ -49,7 +49,8 @@ const server = http.createServer(async (req, res) => {
     }
     if (req.method === "POST" && url.pathname === "/api/forge") {
       const input = validateInput(await readBody(req));
-      return send(res, 200, await executeAgent(input));
+      const executor = createOfficialExecutor();
+      return send(res, 200, await executeTasteForge(input, executor));
     }
     if (req.method === "GET") {
       const asset = await staticFile(url.pathname);
