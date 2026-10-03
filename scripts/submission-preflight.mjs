@@ -43,9 +43,36 @@ add("responsible_data", /## Responsible data handling\b/.test(submission),
 add("license", await exists("LICENSE"), "Open-source license is present.");
 add("ci", await exists(".github/workflows/ci.yml"),
   "Reproducible CI workflow is present.");
+const judging = await exists("docs/JUDGING_ALIGNMENT.md")
+  ? await read("docs/JUDGING_ALIGNMENT.md")
+  : "";
+add("judging_alignment",
+  ["Technological Implementation", "Design", "Potential Impact", "Quality of the Idea"]
+    .every(label => judging.includes(label)),
+  "All four official Qloo judging criteria are mapped to project evidence.");
 const artifact = "artifacts/qloo-live-demo.json";
 add("live_qloo_artifact", await exists(artifact),
   "Real redacted Qloo live-run artifact exists.", true);
+
+let deploymentOk = false;
+let deploymentDetail = "No verified external deployment receipt found.";
+if (await exists("artifacts/deployment.json")) {
+  try {
+    const deployment = JSON.parse(await read("artifacts/deployment.json"));
+    deploymentOk =
+      deployment?.schema === "tasteforge.deployment.v1" &&
+      /^https:\/\//.test(String(deployment?.url || "")) &&
+      deployment?.root_status === 200 &&
+      deployment?.api_status === 200 &&
+      deployment?.qloo_configured === true;
+    deploymentDetail = deploymentOk
+      ? "Verified external demo: " + deployment.url
+      : "Deployment receipt exists but is incomplete or not Qloo-ready.";
+  } catch {
+    deploymentDetail = "Deployment receipt is not valid JSON.";
+  }
+}
+add("external_demo", deploymentOk, deploymentDetail, true);
 
 let media = [];
 for (const dir of ["docs", "artifacts"]) {

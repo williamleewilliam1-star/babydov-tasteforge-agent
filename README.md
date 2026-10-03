@@ -107,8 +107,17 @@ Submission readiness is machine-checked:
 
 ```bash
 npm run submission:check   # static requirements; runs in CI
-npm run submission:strict  # final gate: requires real live artifact + demo media
+npm run submission:strict  # final gate: live Qloo artifact + verified external demo + media
 ```
+
+After deployment, create a durable verification receipt:
+
+```bash
+npm run deployment:record -- https://your-public-demo.example artifacts/deployment.json
+npm run submission:strict
+```
+
+The deployment recorder requires HTTPS, HTTP 200 for the public UI and health endpoint, and `qloo_configured=true`. It does not record credentials.
 
 See `docs/SUBMISSION_PREFLIGHT.md`.
 

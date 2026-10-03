@@ -9,6 +9,7 @@
     "dev": "node dev-server.js",
     "verify:qloo": "node scripts/verify-qloo-runtime.mjs",
     "demo:live": "node scripts/live-demo.mjs",
+    "deployment:record": "node scripts/record-deployment.mjs",
     "submission:check": "node scripts/submission-preflight.mjs",
     "submission:strict": "node scripts/submission-preflight.mjs --strict"
   },
@@ -16,6 +17,6 @@
     "node": ">=22.19.0"
   },
   "dependencies": {
-    "@qloo/qloo-harness": "0.1.26"
+    "@qloo/qloo-harness": "^0.1.26"
   }
 }

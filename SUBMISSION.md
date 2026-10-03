@@ -125,5 +125,7 @@ A final redacted live-run artifact will record workflow IDs, result status/count
 - Qloo API-key request: submitted and confirmed.
 - Official Qloo workflow migration: merged to main and CI-validated.
 - Redacted live-demo artifact tooling: ready and tested.
+- Judging-criteria alignment: documented and machine-checked.
 - Real Qloo live artifact: pending event API key.
-- External live deployment: waits for live key and final hosting.
+- External live deployment: pending live key and final hosting.
+- Strict final gate intentionally remains blocked until both the real live artifact and a verified external HTTPS deployment receipt exist.
