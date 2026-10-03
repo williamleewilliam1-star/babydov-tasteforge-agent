@@ -31,6 +31,14 @@ Pinned runtime:
 
 The application does not silently switch to another transport after Qloo failure.
 
+## Demo media
+
+Current credential-safe UI screenshot:
+
+![TasteForge credential-ready UI](docs/tasteforge-ui-ready.png)
+
+The screenshot intentionally shows the credential-pending state. It contains no API key, personal data, or fabricated Qloo result. A second result-state screenshot/video will be captured only after the real event key produces a live Qloo run.
+
 ## Demo flow
 
 Suggested example:
