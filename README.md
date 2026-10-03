@@ -103,6 +103,15 @@ Live Qloo tests are added only after the hackathon key is available and must nev
 
 The live submission artifact workflow is documented in `docs/LIVE_DEMO.md`. It allowlists evidence/provenance fields and excludes credentials by construction.
 
+Submission readiness is machine-checked:
+
+```bash
+npm run submission:check   # static requirements; runs in CI
+npm run submission:strict  # final gate: requires real live artifact + demo media
+```
+
+See `docs/SUBMISSION_PREFLIGHT.md`.
+
 ## Hackathon
 
 Qloo Agentic Hackathon · Sep 30–Oct 30, 2026.

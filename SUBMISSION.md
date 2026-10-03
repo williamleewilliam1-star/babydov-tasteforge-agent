@@ -77,6 +77,15 @@ brief + normalized evidence + trace
 - No database is required and the MVP does not persist user prompts/results.
 - Qloo response evidence and TasteForge synthesis are visually separated.
 
+## Known limitations
+
+- Qloo results describe group-level taste relationships; they do not predict an individual person's behavior.
+- TasteForge only synthesizes the domains returned by the official Qloo workflows; an empty or failed domain remains unresolved.
+- Seed resolution can be ambiguous when a short name maps to multiple cultural entities.
+- The current brief is intentionally compact and does not replace human brand/legal review.
+- The MVP stores no history, user profile, or campaign workspace.
+- Final live provenance and demo media remain blocked until the personal hackathon API key arrives.
+
 ## Reproducibility
 
 Without a live key:
