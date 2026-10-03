@@ -33,6 +33,15 @@ function createOfficialExecutor(env = process.env) {
   return createDirectQlooWorkflowExecutorFromEnvironment({ env: resolvedEnv });
 }
 
+function qlooAuthError() {
+  const error = new Error("Qloo credential is not configured on this deployment.");
+  error.code = "QLOO_AUTH";
+  error.layer = "qloo";
+  error.retryable = false;
+  error.recovery = "Set QLOO_API_KEY or run qloo setup --qloo, then retry the same operation.";
+  return error;
+}
+
 function traceRow(execution, meta = {}) {
   const result = execution?.result || {};
   return {
@@ -82,9 +91,7 @@ async function runWorkflow(executor, operation, input, trace, meta = {}) {
 
 export async function executeAgent(input, options = {}) {
   const executor = options.executor || createOfficialExecutor(options.env || process.env);
-  if (!executor) {
-    throw new Error("Official Qloo workflow executor is not configured.");
-  }
+  if (!executor) throw qlooAuthError();
 
   const trace = [];
   const resolved = [];
@@ -196,12 +203,13 @@ export default async function handler(req, res) {
     return json(res, 200, await executeAgent(input));
   } catch (error) {
     const message = error?.message || "Unexpected error";
-    const status = message.includes("not configured") ? 503 : 400;
+    const status = error?.code === "QLOO_AUTH" || message.includes("not configured") ? 503 : 400;
     return json(res, status, {
       error: message,
       code: error?.code || null,
       layer: error?.layer || null,
-      retryable: Boolean(error?.retryable)
+      retryable: Boolean(error?.retryable),
+      recovery: error?.recovery || null
     });
   }
 }

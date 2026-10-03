@@ -1,5 +1,11 @@
 const $ = id => document.getElementById(id);
-const safe = value => String(value ?? "");
+const safe = value => String(value ?? "").replace(/[&<>"']/g, ch => ({
+  "&": "&amp;",
+  "<": "&lt;",
+  ">": "&gt;",
+  "\"": "&quot;",
+  "'": "&#39;"
+})[ch]);
 const pct = value => value == null ? "—" : `${Math.round(Number(value) * 100)}%`;
 
 function card(item, extra = "") {
@@ -55,7 +61,11 @@ $("forge-form").addEventListener("submit", async event => {
       })
     });
     const data = await response.json();
-    if (!response.ok) throw new Error(data.error || "Agent run failed.");
+    if (!response.ok) {
+      const prefix = data.code ? `${data.code}: ` : "";
+      const recovery = data.recovery ? ` ${data.recovery}` : "";
+      throw new Error(prefix + (data.error || "Agent run failed.") + recovery);
+    }
     render(data);
   } catch (error) {
     $("status").innerHTML = `<strong>Blocked.</strong> ${safe(error.message)}`;
@@ -63,3 +73,15 @@ $("forge-form").addEventListener("submit", async event => {
     button.disabled = false;
   }
 });
+
+async function checkReadiness() {
+  try {
+    const response = await fetch("/api/forge", { headers: { "accept": "application/json" } });
+    const data = await response.json();
+    if (response.ok && data.qloo_configured === false) {
+      $("status").innerHTML = "<strong>Credential pending.</strong> Qloo API access is not configured on this deployment yet.";
+    }
+  } catch {}
+}
+
+checkReadiness();
