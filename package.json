@@ -7,7 +7,8 @@
   "scripts": {
     "test": "node --test",
     "dev": "node dev-server.js",
-    "verify:qloo": "node scripts/verify-qloo-runtime.mjs"
+    "verify:qloo": "node scripts/verify-qloo-runtime.mjs",
+    "demo:live": "node scripts/live-demo.mjs"
   },
   "engines": {
     "node": ">=22.19.0"

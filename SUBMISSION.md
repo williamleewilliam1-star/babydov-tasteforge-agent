@@ -98,7 +98,7 @@ QLOO_TRUSTED_BASE_URL=https://hackathon.api.qloo.com \
 npm run dev
 ```
 
-A final redacted live-run artifact will record workflow IDs, result status/count, correlation IDs and Qloo provenance but never credentials.
+A final redacted live-run artifact will record workflow IDs, result status/count, correlation IDs and Qloo provenance but never credentials. The artifact builder and credential-exclusion regression test are already implemented; only the real event-key run remains pending.
 
 ## Current status
 
@@ -106,5 +106,7 @@ A final redacted live-run artifact will record workflow IDs, result status/count
 - MIT license: ready.
 - Qloo Devpost registration: complete.
 - Qloo API-key request: submitted and confirmed.
-- Official workflow migration: implemented on feature branch; CI validation required before merge.
+- Official Qloo workflow migration: merged to main and CI-validated.
+- Redacted live-demo artifact tooling: ready and tested.
+- Real Qloo live artifact: pending event API key.
 - External live deployment: waits for live key and final hosting.
