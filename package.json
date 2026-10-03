@@ -17,6 +17,6 @@
     "node": ">=22.19.0"
   },
   "dependencies": {
-    "@qloo/qloo-harness": "^0.1.26"
+    "@qloo/qloo-harness": "0.1.26"
   }
 }
