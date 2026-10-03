@@ -135,5 +135,5 @@ A final redacted live-run artifact will record workflow IDs, result status/count
 - Redacted live-demo artifact tooling: ready and tested.
 - Judging-criteria alignment: documented and machine-checked.
 - Real Qloo live artifact: pending event API key.
-- External live deployment: pending live key and final hosting.
-- Strict final gate intentionally remains blocked until both the real live artifact and a verified external HTTPS deployment receipt exist.
+- Public Vercel deployment: live at `https://babydov-tasteforge-agent.vercel.app`; current health is intentionally `qloo_configured=false` until the event key arrives.
+- Strict final gate intentionally remains blocked until the real live artifact exists and the same public deployment is re-verified with `qloo_configured=true`.
