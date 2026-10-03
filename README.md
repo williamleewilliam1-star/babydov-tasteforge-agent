@@ -39,13 +39,14 @@ See `docs/QLOO_WORKFLOW_CONTRACT.md`.
 
 ## Local run
 
-Requires Node.js 20+.
+Requires Node.js 22.19+.
 
 ```bash
 cp .env.example .env
 # add QLOO_API_KEY to .env
 set -a; source .env; set +a
-npm install
+npm ci
+npm run verify:qloo
 npm test
 npm run dev
 ```

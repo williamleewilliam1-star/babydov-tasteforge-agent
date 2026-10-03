@@ -82,7 +82,8 @@ brief + normalized evidence + trace
 Without a live key:
 
 ```bash
-npm install
+npm ci
+npm run verify:qloo
 npm test
 ```
 

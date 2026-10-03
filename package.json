@@ -6,10 +6,11 @@
   "description": "Qloo-powered cultural intelligence agent for evidence-first creative direction.",
   "scripts": {
     "test": "node --test",
-    "dev": "node dev-server.js"
+    "dev": "node dev-server.js",
+    "verify:qloo": "node scripts/verify-qloo-runtime.mjs"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=22.19.0"
   },
   "dependencies": {
     "@qloo/qloo-harness": "0.1.26"
