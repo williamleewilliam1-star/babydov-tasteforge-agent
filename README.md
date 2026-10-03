@@ -130,6 +130,8 @@ Qloo Agentic Hackathon · Sep 30–Oct 30, 2026.
 
 API-key request: submitted and confirmed. The key is expected by email and is not committed to the repository.
 
+Public pre-key deployment: https://babydov-tasteforge-agent.vercel.app — reachable now, with Qloo execution intentionally disabled until the personal event key arrives. See `docs/DEPLOYMENT_STATUS.md`.
+
 ## License
 
 MIT

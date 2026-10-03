@@ -14,7 +14,7 @@
     "submission:strict": "node scripts/submission-preflight.mjs --strict"
   },
   "engines": {
-    "node": ">=22.19.0"
+    "node": "^22.19.0 || ^24.0.0"
   },
   "dependencies": {
     "@qloo/qloo-harness": "0.1.26"
