@@ -13,6 +13,48 @@ function card(item, extra = "") {
   return `<article class="card"><div><strong>${safe(item.name)}</strong><small>${safe(item.type || extra)}</small></div>${affinity}</article>`;
 }
 
+function chipList(items, emptyText = "None returned") {
+  if (!Array.isArray(items) || !items.length) {
+    return `<span class="chip muted">${safe(emptyText)}</span>`;
+  }
+  return items.map(item => `<span class="chip">${safe(item.name || item)}</span>`).join("");
+}
+
+function renderCoherence(coherence) {
+  const panel = $("coherence-panel");
+  if (!coherence || coherence.mode !== "dual-pole") {
+    panel.classList.add("hidden");
+    return;
+  }
+
+  panel.classList.remove("hidden");
+  const poleA = coherence.poles?.a || [];
+  const poleB = coherence.poles?.b || [];
+  $("poles").innerHTML = [
+    `<article><span>POLE A</span><strong>${poleA.map(safe).join(" × ") || "—"}</strong></article>`,
+    `<article><span>POLE B</span><strong>${poleB.map(safe).join(" × ") || "—"}</strong></article>`
+  ].join("");
+
+  if (!coherence.available) {
+    $("coherence-note").textContent = coherence.reason || "Qloo audience comparison is unavailable.";
+    $("shared-affinities").innerHTML = chipList([], "No comparison evidence");
+    $("differentiators").innerHTML = chipList([], "No comparison evidence");
+    return;
+  }
+
+  $("coherence-note").textContent =
+    "Qloo compared the first two resolved seeds against the second two as one aggregate audience-comparison operation.";
+  $("shared-affinities").innerHTML = chipList(coherence.shared || []);
+
+  const diffA = (coherence.differentiators?.a || []).map(item => ({ ...item, name: `A · ${item.name}` }));
+  const diffB = (coherence.differentiators?.b || []).map(item => ({ ...item, name: `B · ${item.name}` }));
+  const diffGeneral = coherence.differentiators?.general || [];
+  $("differentiators").innerHTML = chipList(
+    [...diffA, ...diffB, ...diffGeneral],
+    "No named differentiators returned"
+  );
+}
+
 function render(result) {
   $("result").classList.remove("hidden");
   $("status").innerHTML = `<strong>Complete.</strong> ${result.trace.length} agent steps recorded.`;
@@ -23,6 +65,8 @@ function render(result) {
     `<article class="move"><span>${safe(move.lane)}</span><p>${safe(move.action)}</p></article>`
   ).join("");
 
+  renderCoherence(result.creative_coherence);
+
   $("resolved").innerHTML = result.seeds.map(seed => card(seed, seed.source_seed)).join("");
   const entries = Object.entries(result.groups || {});
   $("domains").innerHTML = entries.map(([name, items]) => {
@@ -32,8 +76,16 @@ function render(result) {
 
   $("trace").innerHTML = result.trace.map(step => {
     const state = step.status === "ok" ? "ok" : "warn";
-    const detail = step.entity_name || step.filter_type || step.error || step.seed || "";
-    return `<li><span class="${state}">${safe(step.status)}</span><strong>${safe(step.step)}</strong><small>${safe(detail)}</small></li>`;
+    const operation = step.operation || step.step || "unknown";
+    const detail =
+      step.target_type ||
+      step.code ||
+      step.entity_name ||
+      step.filter_type ||
+      step.error ||
+      step.seed ||
+      (step.result_count != null ? `${step.result_count} result(s)` : "");
+    return `<li><span class="${state}">${safe(step.status)}</span><strong>${safe(operation)}</strong><small>${safe(detail)}</small></li>`;
   }).join("");
 
   const e = result.brief.evidence_summary;
