@@ -60,8 +60,14 @@ const server = http.createServer(async (req, res) => {
     }
     return send(res, 404, { error: "Not found" });
   } catch (error) {
-    const status = String(error.message).includes("QLOO_API_KEY") ? 503 : 400;
-    return send(res, status, { error: error.message });
+    const status = error?.code === "QLOO_AUTH" || String(error.message).includes("not configured") ? 503 : 400;
+    return send(res, status, {
+      error: error.message,
+      code: error?.code || null,
+      layer: error?.layer || null,
+      retryable: Boolean(error?.retryable),
+      recovery: error?.recovery || null
+    });
   }
 });
 

@@ -170,3 +170,20 @@ test("fewer than two resolved describe workflows blocks synthesis", async () => 
     /could not resolve at least two seeds/i
   );
 });
+
+test("missing Qloo credential surfaces the official auth contract", async () => {
+  await assert.rejects(
+    executeAgent({
+      seeds: ["Jil Sander", "Brian Eno"],
+      objective: "Build a campaign",
+      market: "Global"
+    }, { env: {} }),
+    error => {
+      assert.equal(error.code, "QLOO_AUTH");
+      assert.equal(error.layer, "qloo");
+      assert.equal(error.retryable, false);
+      assert.match(error.recovery, /QLOO_API_KEY|qloo setup --qloo/);
+      return true;
+    }
+  );
+});
