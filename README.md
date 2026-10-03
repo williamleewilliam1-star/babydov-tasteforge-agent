@@ -49,6 +49,9 @@ npm ci
 npm run verify:qloo
 npm test
 npm run dev
+
+# After the live Qloo key arrives:
+npm run demo:live -- artifacts/qloo-live-demo.json
 ```
 
 Open http://127.0.0.1:8788
@@ -97,6 +100,8 @@ The deterministic test suite does not require an API key. It injects a fake impl
 - creative brief missing-data behavior
 
 Live Qloo tests are added only after the hackathon key is available and must never print the key.
+
+The live submission artifact workflow is documented in `docs/LIVE_DEMO.md`. It allowlists evidence/provenance fields and excludes credentials by construction.
 
 ## Hackathon
 
