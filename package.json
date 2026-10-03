@@ -8,7 +8,9 @@
     "test": "node --test",
     "dev": "node dev-server.js",
     "verify:qloo": "node scripts/verify-qloo-runtime.mjs",
-    "demo:live": "node scripts/live-demo.mjs"
+    "demo:live": "node scripts/live-demo.mjs",
+    "submission:check": "node scripts/submission-preflight.mjs",
+    "submission:strict": "node scripts/submission-preflight.mjs --strict"
   },
   "engines": {
     "node": ">=22.19.0"

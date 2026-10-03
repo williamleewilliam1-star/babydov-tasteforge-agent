@@ -28,3 +28,5 @@ jobs:
           node --check dev-server.js
       - name: Test
         run: npm test
+      - name: Submission static preflight
+        run: npm run submission:check
