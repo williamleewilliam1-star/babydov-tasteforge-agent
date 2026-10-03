@@ -58,7 +58,13 @@ test("official workflow path resolves seeds before grounded recommendations", as
       if (operation === "compare_audiences") {
         return execution(operation, {
           interpretation: { group_a: input.group_a, group_b: input.group_b },
-          results: { shared: ["minimal"], differentiators: ["cinematic"] }
+          results: {
+            shared: ["Editorial restraint"],
+            differentiators: {
+              group_a: ["Functional minimalism"],
+              group_b: ["Cinematic nostalgia"]
+            }
+          }
         }, n);
       }
       throw new Error(`unexpected operation ${operation}`);
@@ -89,6 +95,21 @@ test("official workflow path resolves seeds before grounded recommendations", as
   assert.equal(result.groups.brands.length, 2);
   assert.equal(result.seeds.length, 4);
   assert.equal(result.audience_comparison.operation, "compare_audiences");
+  assert.equal(result.creative_coherence.available, true);
+  assert.deepEqual(
+    result.creative_coherence.shared.map(item => item.name),
+    ["Editorial restraint"]
+  );
+  assert.deepEqual(
+    result.creative_coherence.differentiators.a.map(item => item.name),
+    ["Functional minimalism"]
+  );
+  assert.deepEqual(
+    result.creative_coherence.differentiators.b.map(item => item.name),
+    ["Cinematic nostalgia"]
+  );
+  assert.equal(result.brief.moves[0].lane, "Creative tension");
+  assert.match(result.brief.moves[0].action, /Editorial restraint/);
   assert.equal(result.limitations.length, 4);
   assert.match(result.brief.thesis, /Minimalism/);
 });

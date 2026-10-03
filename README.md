@@ -2,7 +2,7 @@
 
 TasteForge is an evidence-first cultural intelligence agent for creative direction, built on the official Qloo Agentic Hackathon workflow contract.
 
-Give it 2–4 cultural seeds (artists, brands, films, places) and a campaign objective. TasteForge asks Qloo to resolve and describe those seeds, extract shared cultural tags, and recommend adjacent brands, films, artists, and places. The creative brief is synthesized only from returned Qloo evidence.
+Give it 2–4 cultural seeds (artists, brands, films, places) and a campaign objective. TasteForge asks Qloo to resolve and describe those seeds, extract shared cultural tags, and recommend adjacent brands, films, artists, and places. With four resolved seeds, it also splits them into two cultural poles and uses Qloo's official `compare_audiences` workflow to build a **Creative Tension Map**: shared affinities become bridges, while named differentiators remain intentional contrast. The creative brief is synthesized only from returned Qloo evidence.
 
 ## Why Qloo matters
 
@@ -10,8 +10,9 @@ A generic LLM can produce a plausible moodboard. TasteForge deliberately does so
 
 - Qloo resolves the cultural references.
 - Qloo supplies cross-domain taste evidence.
+- Four-seed runs use one official audience comparison to expose **bridges and tension**, not just a blended recommendation list.
 - TasteForge exposes operation status, correlation IDs, timing, warnings, and provenance.
-- A failed domain stays empty instead of being replaced with an invented recommendation.
+- A failed domain or comparison stays empty instead of being replaced with an invented recommendation.
 
 ## Official Qloo workflow
 
@@ -32,8 +33,10 @@ Pipeline:
 5. `recommend(target_type=movie)`.
 6. `recommend(target_type=artist)`.
 7. `recommend(target_type=place)`.
-8. Build the brief only from those workflow results.
-9. Return normalized evidence plus the complete workflow trace.
+8. For exactly four resolved seeds, `compare_audiences` compares seeds 1–2 against seeds 3–4 in one Qloo comparison operation.
+9. Build the Creative Tension Map only from named shared/differentiating comparison evidence; never compare scores from separate API calls.
+10. Build the brief only from those workflow results.
+11. Return normalized evidence plus the complete workflow trace.
 
 See `docs/QLOO_WORKFLOW_CONTRACT.md`.
 

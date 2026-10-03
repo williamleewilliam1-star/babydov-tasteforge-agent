@@ -1,5 +1,9 @@
 import { createDirectQlooWorkflowExecutorFromEnvironment } from "@qloo/qloo-harness";
-import { buildCreativeBrief, normalizeItems } from "./qloo-core.js";
+import {
+  buildCreativeBrief,
+  buildCreativeCoherence,
+  normalizeItems
+} from "./qloo-core.js";
 
 export const QLOO_INTEGRATION = Object.freeze({
   surface: "@qloo/qloo-harness",
@@ -175,10 +179,16 @@ export async function executeAgent(input, options = {}) {
     }
   }
 
+  const creativeCoherence = buildCreativeCoherence({
+    seeds: resolvedSeeds,
+    audienceComparison,
+    groups
+  });
   const brief = buildCreativeBrief({
     objective: input.objective,
     seeds: resolvedSeeds,
-    groups
+    groups,
+    coherence: creativeCoherence
   });
 
   return {
@@ -190,6 +200,7 @@ export async function executeAgent(input, options = {}) {
     seeds: resolvedSeeds,
     groups,
     audience_comparison: audienceComparison,
+    creative_coherence: creativeCoherence,
     brief,
     trace,
     limitations: [

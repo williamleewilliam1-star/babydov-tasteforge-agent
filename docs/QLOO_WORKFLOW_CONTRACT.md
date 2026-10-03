@@ -15,23 +15,27 @@ The hackathon kit states that `qloo exec`, `qloo explore`, and `qloo mcp` share 
 
 ## TasteForge workflow map
 
-The intended production flow uses these official operations:
+The production flow uses these official operations:
 
-1. `entity_tags`
-   - Input: all cultural seed entities together.
-   - Purpose: retrieve Qloo concepts that jointly characterize the seed set.
-2. `recommend` with `target_type=brand`
+1. `describe` for each human-entered seed.
+   - Purpose: resolve public cultural references before they can influence synthesis.
+   - Gate: at least two seeds must resolve successfully.
+2. `entity_tags`
+   - Input: all resolved seed entities together.
+   - Purpose: retrieve Qloo concepts that characterize the combined seed set.
+3. `recommend` with `target_type=brand`
    - Purpose: brand adjacency for styling and partnership direction.
-3. `recommend` with `target_type=movie`
+4. `recommend` with `target_type=movie`
    - Purpose: cinematic references.
-4. `recommend` with `target_type=artist`
+5. `recommend` with `target_type=artist`
    - Purpose: sonic direction.
-5. `recommend` with `target_type=place`
+6. `recommend` with `target_type=place`
    - Purpose: activation/place adjacency.
-6. Optional `where_popular`
-   - Purpose: geographic affinity when the user gives a concrete region.
-7. Optional `compare_audiences`
-   - Purpose: contrast two taste clusters rather than mixing them into one profile.
+7. `compare_audiences` when exactly four seeds resolve.
+   - Input: seeds 1–2 as group A; seeds 3–4 as group B.
+   - Purpose: contrast two cultural poles in one Qloo comparison request.
+   - TasteForge only names shared affinities/differentiators that the comparison result itself returns.
+   - No score from this result is compared against scores from another Qloo call.
 
 ## Trust boundary
 

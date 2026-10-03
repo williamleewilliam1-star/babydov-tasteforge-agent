@@ -14,10 +14,11 @@ TasteForge turns that problem into an evidence-bearing Qloo agent workflow.
 3. At least two resolved seeds are required before synthesis.
 4. Official Qloo `entity_tags` extracts cultural concepts shared by the seeds.
 5. Official Qloo `recommend` queries adjacent brands, movies, artists, and places.
-6. TasteForge normalizes the returned evidence.
-7. The creative brief is synthesized only from returned Qloo results.
-8. Every operation stays visible with status, correlation ID, duration, warnings, and provenance.
-9. Missing/failed workflows remain missing instead of being replaced by model guesses.
+6. With exactly four resolved seeds, official `compare_audiences` compares seeds 1–2 against seeds 3–4 as two cultural poles.
+7. TasteForge normalizes the returned evidence and builds a Creative Tension Map from named shared affinities and differentiators only.
+8. The creative brief is synthesized only from returned Qloo results.
+9. Every operation stays visible with status, correlation ID, duration, warnings, and provenance.
+10. Missing/failed workflows remain missing instead of being replaced by model guesses.
 
 ## Qloo surface
 
@@ -63,7 +64,12 @@ official @qloo/qloo-harness executor
   |-- recommend(brand)
   |-- recommend(movie)
   |-- recommend(artist)
-  '-- recommend(place)
+  |-- recommend(place)
+  '-- compare_audiences(pair A vs pair B) [4-seed runs]
+  |
+Creative Tension Map
+  |-- named shared affinities -> bridges
+  '-- named differentiators -> preserved contrast
   |
 versioned Qloo result envelopes
   |-- status
@@ -89,6 +95,8 @@ brief + normalized evidence + trace
 
 - Qloo results describe group-level taste relationships; they do not predict an individual person's behavior.
 - TasteForge only synthesizes the domains returned by the official Qloo workflows; an empty or failed domain remains unresolved.
+- Creative Tension Map appears only for four resolved seeds and only when official audience-comparison evidence exists.
+- TasteForge does not compare affinity numbers across separate Qloo calls; bridges/tensions come from the single comparison operation.
 - Seed resolution can be ambiguous when a short name maps to multiple cultural entities.
 - The current brief is intentionally compact and does not replace human brand/legal review.
 - The MVP stores no history, user profile, or campaign workspace.
