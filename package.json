@@ -11,7 +11,8 @@
     "demo:live": "node scripts/live-demo.mjs",
     "deployment:record": "node scripts/record-deployment.mjs",
     "submission:check": "node scripts/submission-preflight.mjs",
-    "submission:strict": "node scripts/submission-preflight.mjs --strict"
+    "submission:strict": "node scripts/submission-preflight.mjs --strict",
+    "finalize:live": "node scripts/finalize-live.mjs"
   },
   "engines": {
     "node": "^22.19.0 || ^24.0.0"
