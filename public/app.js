@@ -101,7 +101,9 @@ $("forge-form").addEventListener("submit", async event => {
   $("status").innerHTML = "<strong>Running.</strong> Resolving seeds and querying Qloo across cultural domains…";
   $("result").classList.add("hidden");
 
-  const seeds = [...document.querySelectorAll(".seed")].map(x => x.value).filter(Boolean);
+  const seeds = [...document.querySelectorAll(".seed")]
+    .map(x => ({ name: x.value, type: x.dataset.type || "" }))
+    .filter(seed => seed.name);
   try {
     const response = await fetch("/api/forge", {
       method: "POST",

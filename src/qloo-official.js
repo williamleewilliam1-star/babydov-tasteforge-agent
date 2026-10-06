@@ -79,9 +79,21 @@ function resolvedFromDescribe(result, sourceSeed) {
 async function resolveSeeds(input, executor, trace) {
   const resolved = [];
   for (const seed of input.seeds) {
+    const sourceSeed = typeof seed === "object" ? seed.name : seed;
+    const seedType = typeof seed === "object" ? seed.type : null;
     try {
-      const result = await run(executor, "describe", { entity: seed }, trace);
-      const entity = resolvedFromDescribe(result, seed);
+      const describeInput = {
+        entity: sourceSeed,
+        ...(seedType ? { type: seedType } : {})
+      };
+      const result = await run(
+        executor,
+        "describe",
+        describeInput,
+        trace,
+        { target_type: seedType || null }
+      );
+      const entity = resolvedFromDescribe(result, sourceSeed);
       if (entity) resolved.push(entity);
     } catch {
       // The trace contains the exact failure; unresolved seeds are not synthesized.

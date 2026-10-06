@@ -45,7 +45,7 @@ The screenshot intentionally shows the credential-pending state. It contains no 
 Suggested example:
 
 - Objective: quiet-luxury campaign for a cinematic mobile LUT collection.
-- Seeds: Jil Sander, Brian Eno, Lost in Translation, Kyoto.
+- Typed seeds: Jil Sander (brand), Brian Eno (artist), Lost in Translation (movie), Kyoto (place).
 - Market: Tokyo + global creative audience.
 - Output: cultural tags + cross-domain taste map + campaign moves + exact Qloo workflow trace.
 
@@ -97,10 +97,10 @@ brief + normalized evidence + trace
 - TasteForge only synthesizes the domains returned by the official Qloo workflows; an empty or failed domain remains unresolved.
 - Creative Tension Map appears only for four resolved seeds and only when official audience-comparison evidence exists.
 - TasteForge does not compare affinity numbers across separate Qloo calls; bridges/tensions come from the single comparison operation.
-- Seed resolution can be ambiguous when a short name maps to multiple cultural entities.
+- Seed resolution can be ambiguous when a short name maps to multiple cultural entities; the demo now sends explicit Qloo entity types to make the default judge flow deterministic.
 - The current brief is intentionally compact and does not replace human brand/legal review.
 - The MVP stores no history, user profile, or campaign workspace.
-- Final live provenance and demo media remain blocked until the personal hackathon API key arrives.
+- Final live provenance is in progress after the event API key was issued on 2026-10-06; the public deployment is already Qloo-configured.
 
 ## Reproducibility
 
@@ -123,17 +123,17 @@ QLOO_TRUSTED_BASE_URL=https://hackathon.api.qloo.com \
 npm run dev
 ```
 
-A final redacted live-run artifact will record workflow IDs, result status/count, correlation IDs and Qloo provenance but never credentials. The artifact builder and credential-exclusion regression test are already implemented; only the real event-key run remains pending.
+The final redacted live-run artifact records workflow IDs, result status/count, correlation IDs and Qloo provenance but never credentials. The artifact builder and credential-exclusion regression test are implemented; the issued event key is server-side only.
 
 ## Current status
 
 - Public GitHub repository: ready.
 - MIT license: ready.
 - Qloo Devpost registration: complete.
-- Qloo API-key request: submitted and confirmed.
+- Qloo API key: issued on 2026-10-06 and installed server-side in Vercel production.
 - Official Qloo workflow migration: merged to main and CI-validated.
 - Redacted live-demo artifact tooling: ready and tested.
 - Judging-criteria alignment: documented and machine-checked.
-- Real Qloo live artifact: pending event API key.
-- Public Vercel deployment: live at `https://babydov-tasteforge-agent.vercel.app`; current health is intentionally `qloo_configured=false` until the event key arrives.
+- Real Qloo live artifact: pending completion of the typed four-seed live run.
+- Public Vercel deployment: live at `https://babydov-tasteforge-agent.vercel.app`; current health reports `qloo_configured=true`.
 - Strict final gate intentionally remains blocked until the real live artifact exists and the same public deployment is re-verified with `qloo_configured=true`.

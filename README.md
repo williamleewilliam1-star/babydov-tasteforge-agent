@@ -53,7 +53,7 @@ npm run verify:qloo
 npm test
 npm run dev
 
-# After the live Qloo key arrives:
+# With the issued live Qloo key available:
 npm run demo:live -- artifacts/qloo-live-demo.json
 ```
 
@@ -77,7 +77,12 @@ The key stays server-side. There is no runtime transport fallback.
 {
   "objective": "Create a quiet-luxury launch campaign for a cinematic LUT collection",
   "market": "Tokyo + global creative audience",
-  "seeds": ["Jil Sander", "Brian Eno", "Lost in Translation", "Kyoto"]
+  "seeds": [
+    {"name": "Jil Sander", "type": "brand"},
+    {"name": "Brian Eno", "type": "artist"},
+    {"name": "Lost in Translation", "type": "movie"},
+    {"name": "Kyoto", "type": "place"}
+  ]
 }
 ```
 
@@ -100,6 +105,7 @@ The deterministic test suite does not require an API key. It injects a fake impl
 - provenance/correlation IDs in the trace
 - one failed domain does not fabricate evidence
 - ambiguous/unresolved seeds block synthesis
+- explicit seed types are preserved and passed to the official Qloo describe workflow
 - creative brief missing-data behavior
 
 Live Qloo tests are added only after the hackathon key is available and must never print the key.
@@ -128,9 +134,9 @@ See `docs/SUBMISSION_PREFLIGHT.md`.
 
 Qloo Agentic Hackathon · Sep 30–Oct 30, 2026.
 
-API-key request: submitted and confirmed. The key is expected by email and is not committed to the repository.
+API-key request: fulfilled on 2026-10-06. The issued key is installed server-side only and is not committed to the repository.
 
-Public pre-key deployment: https://babydov-tasteforge-agent.vercel.app — reachable now, with Qloo execution intentionally disabled until the personal event key arrives. See `docs/DEPLOYMENT_STATUS.md`.
+Public deployment: https://babydov-tasteforge-agent.vercel.app — reachable now and reporting `qloo_configured=true`. See `docs/DEPLOYMENT_STATUS.md`.
 
 ## License
 

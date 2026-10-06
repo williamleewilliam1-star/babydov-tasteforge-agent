@@ -1,6 +1,6 @@
 # TasteForge Agent — Devpost final draft
 
-> Status: event key issued; deterministic runtime and 14/14 tests pass. Do **not** treat the submission as final until a real Qloo run has produced the redacted live artifact and the public deployment reports `qloo_configured=true`.
+> Status: event key issued; deterministic runtime and 16/16 tests pass. Do **not** treat the submission as final until a real Qloo run has produced the redacted live artifact and the public deployment reports `qloo_configured=true`.
 
 ## Project name
 
@@ -74,7 +74,7 @@ The project deliberately fails closed:
 
 ## Testing
 
-Current deterministic suite: 14/14 PASS.
+Current deterministic suite: 16/16 PASS.
 
 The suite covers:
 - exact official workflow ordering;

@@ -17,7 +17,12 @@ if (!process.env.QLOO_API_KEY) {
 const input = validateInput({
   objective: "Create a quiet-luxury launch campaign for a cinematic mobile LUT collection.",
   market: "Tokyo + global creative audience",
-  seeds: ["Jil Sander", "Brian Eno", "Lost in Translation", "Kyoto"]
+  seeds: [
+    { name: "Jil Sander", type: "brand" },
+    { name: "Brian Eno", type: "artist" },
+    { name: "Lost in Translation", type: "movie" },
+    { name: "Kyoto", type: "place" }
+  ]
 });
 
 const result = await executeAgent(input);

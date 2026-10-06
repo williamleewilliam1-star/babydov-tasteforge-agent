@@ -47,6 +47,19 @@ test("validateInput requires two seeds and caps at four", () => {
   assert.equal(input.objective, "Launch campaign");
 });
 
+test("validateInput preserves explicit Qloo seed types", () => {
+  const input = validateInput({
+    seeds: [
+      { name: "  Jil Sander  ", type: "brand" },
+      { name: "Brian Eno", type: "artist" }
+    ]
+  });
+  assert.deepEqual(input.seeds, [
+    { name: "Jil Sander", type: "brand" },
+    { name: "Brian Eno", type: "artist" }
+  ]);
+});
+
 test("creative brief cites evidence and leaves missing domains explicit", () => {
   const brief = buildCreativeBrief({
     objective: "Launch a product",

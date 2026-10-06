@@ -33,7 +33,9 @@ export function buildSubmissionArtifact(input, result) {
     input: {
       objective: input?.objective || "",
       market: input?.market || "",
-      seeds: Array.isArray(input?.seeds) ? input.seeds.map(String).slice(0, 4) : []
+      seeds: Array.isArray(input?.seeds)
+        ? input.seeds.map(seed => typeof seed === "object" ? String(seed?.name || "") : String(seed)).slice(0, 4)
+        : []
     },
     integration: {
       surface: result?.integration?.surface || null,

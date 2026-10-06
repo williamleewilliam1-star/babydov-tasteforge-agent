@@ -212,9 +212,22 @@ export function buildCreativeBrief({ objective, seeds, groups, coherence = null 
   };
 }
 
+const QLOO_SEED_TYPES = new Set(["brand", "artist", "movie", "place"]);
+
+function normalizeSeedInput(value) {
+  if (value && typeof value === "object" && !Array.isArray(value)) {
+    const name = cleanText(value.name ?? value.entity ?? "", 120);
+    const type = cleanText(value.type ?? "", 32).toLowerCase();
+    if (!name) return null;
+    return QLOO_SEED_TYPES.has(type) ? { name, type } : name;
+  }
+  const name = cleanText(value, 120);
+  return name || null;
+}
+
 export function validateInput(body) {
   const rawSeeds = Array.isArray(body?.seeds) ? body.seeds : [];
-  const seeds = rawSeeds.map(value => cleanText(value, 120)).filter(Boolean).slice(0, 4);
+  const seeds = rawSeeds.map(normalizeSeedInput).filter(Boolean).slice(0, 4);
   if (seeds.length < 2) throw new Error("Provide at least 2 cultural seeds.");
   return {
     seeds,

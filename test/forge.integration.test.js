@@ -112,6 +112,24 @@ test("TasteForge uses only official Qloo workflows", async () => {
   assert.ok(result.trace.every(row => row.provenance));
 });
 
+test("typed seed inputs disambiguate official describe workflows", async () => {
+  const executor = fakeExecutor();
+  await executeAgent({
+    seeds: [
+      { name: "Jil Sander", type: "brand" },
+      { name: "Brian Eno", type: "artist" }
+    ],
+    objective: "Build a campaign",
+    market: "Tokyo"
+  }, { executor });
+
+  const describeCalls = executor.calls.filter(call => call.operation === "describe");
+  assert.deepEqual(describeCalls.map(call => call.input), [
+    { entity: "Jil Sander", type: "brand" },
+    { entity: "Brian Eno", type: "artist" }
+  ]);
+});
+
 test("one failed official workflow does not fabricate that domain", async () => {
   const executor = fakeExecutor({ failTarget: "brand" });
   const result = await executeAgent({
