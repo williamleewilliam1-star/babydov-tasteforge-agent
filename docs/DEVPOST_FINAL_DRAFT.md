@@ -84,6 +84,7 @@ The suite covers:
 - one failed Qloo workflow without fabricated fallback;
 - missing-domain behavior;
 - Qloo provenance and correlation IDs;
+- explicit typed-seed disambiguation for the default live demo;
 - Creative Tension Map evidence rules;
 - credential exclusion from the live artifact.
 
@@ -104,7 +105,7 @@ Seeds:
 - Jil Sander
 - Brian Eno
 - Lost in Translation
-- Kyoto
+- Blade Runner
 
 Market:
 > Tokyo + global creative audience

@@ -81,7 +81,7 @@ The key stays server-side. There is no runtime transport fallback.
     {"name": "Jil Sander", "type": "brand"},
     {"name": "Brian Eno", "type": "artist"},
     {"name": "Lost in Translation", "type": "movie"},
-    {"name": "Kyoto", "type": "place"}
+    {"name": "Blade Runner", "type": "movie"}
   ]
 }
 ```

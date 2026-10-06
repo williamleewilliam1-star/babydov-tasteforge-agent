@@ -1,0 +1,585 @@
+{
+  "schema": "tasteforge.live_demo.v1",
+  "generated_at": "2026-10-06T08:31:28.446Z",
+  "input": {
+    "objective": "Create a quiet-luxury launch campaign for a cinematic mobile LUT collection.",
+    "market": "Tokyo + global creative audience",
+    "seeds": [
+      "Jil Sander",
+      "Brian Eno",
+      "Lost in Translation",
+      "Blade Runner"
+    ]
+  },
+  "integration": {
+    "surface": "@qloo/qloo-harness",
+    "harness_version": "0.1.26",
+    "workflow_contract_version": "1.0.0",
+    "result_schema_version": "1.0-preview.1",
+    "transport": null,
+    "resolution": null,
+    "fallback": "none"
+  },
+  "evidence": {
+    "seeds": [
+      {
+        "id": "3DF8B961-F556-4735-9F95-F5CD836270B6",
+        "name": "Jil Sander",
+        "type": null,
+        "affinity": 0,
+        "source_seed": "Jil Sander"
+      },
+      {
+        "id": "1B088E28-0668-4670-A97B-87865A1FCBCF",
+        "name": "Brian Eno",
+        "type": null,
+        "affinity": 0,
+        "source_seed": "Brian Eno"
+      },
+      {
+        "id": "603C7E42-C952-45CB-8B6F-3B803FEFB2F7",
+        "name": "Lost in Translation",
+        "type": null,
+        "affinity": 0,
+        "source_seed": "Lost in Translation"
+      },
+      {
+        "id": "A74A74BB-CE73-4A76-807B-8BD1714BC463",
+        "name": "Blade Runner",
+        "type": null,
+        "affinity": 0,
+        "source_seed": "Blade Runner"
+      }
+    ],
+    "groups": {
+      "tags": [],
+      "brands": [
+        {
+          "id": "84B18312-3C2B-41A9-863B-89651C2F6A2C",
+          "name": "Gucci",
+          "type": "urn:entity",
+          "affinity": 0.9286486025109483
+        },
+        {
+          "id": "5760BF0A-EBDF-4B9A-88CD-69F4BF08C362",
+          "name": "Louis Vuitton",
+          "type": "urn:entity",
+          "affinity": 0.9265617791012185
+        },
+        {
+          "id": "0B67CD5A-152C-470B-9577-A052E3A092F7",
+          "name": "Yves Saint Laurent",
+          "type": "urn:entity",
+          "affinity": 0.9255635382082568
+        },
+        {
+          "id": "D5B78065-6DBB-4DDB-80DF-6495B9B1006B",
+          "name": "Apple Inc",
+          "type": "urn:entity",
+          "affinity": 0.9214023542915509
+        },
+        {
+          "id": "BB047D19-D3D5-47A1-B9AA-ECCEBE9470AE",
+          "name": "Balenciaga",
+          "type": "urn:entity",
+          "affinity": 0.9171861526124804
+        },
+        {
+          "id": "3EC9E7DF-1497-44C4-8642-E7FA2FF3A99D",
+          "name": "Calvin Klein",
+          "type": "urn:entity",
+          "affinity": 0.9133455593441335
+        }
+      ],
+      "films": [
+        {
+          "id": "BB5B7CFF-8EFB-4CED-BCD1-6DF7E16407DD",
+          "name": "Magnolia",
+          "type": "urn:entity",
+          "affinity": 0.9286391966583712
+        },
+        {
+          "id": "AC2E372C-A61C-4276-B0FC-426D40C747F6",
+          "name": "Melancholia",
+          "type": "urn:entity",
+          "affinity": 0.9240191675792057
+        },
+        {
+          "id": "5FBAD562-A8AF-4643-A212-936B17AE97E0",
+          "name": "Synecdoche, New York",
+          "type": "urn:entity",
+          "affinity": 0.923624332614556
+        },
+        {
+          "id": "79A98408-6B84-4416-99B4-A4B3563BEAFB",
+          "name": "Moonrise Kingdom",
+          "type": "urn:entity",
+          "affinity": 0.9169923019469933
+        },
+        {
+          "id": "4F8EBD51-46DB-4527-BC61-75B56472A50E",
+          "name": "Her",
+          "type": "urn:entity",
+          "affinity": 0.9126611784085481
+        },
+        {
+          "id": "D4D36927-B44A-4C32-93F9-781CB2D0E5D9",
+          "name": "Enter the Void",
+          "type": "urn:entity",
+          "affinity": 0.9114544725214606
+        }
+      ],
+      "artists": [
+        {
+          "id": "973FE25D-D742-405B-9878-C4648CD96125",
+          "name": "Cocteau Twins",
+          "type": "urn:entity",
+          "affinity": 0.9481266565996428
+        },
+        {
+          "id": "01381184-B533-4E3C-B9DB-43A2FE326744",
+          "name": "Björk",
+          "type": "urn:entity",
+          "affinity": 0.9441623641943963
+        },
+        {
+          "id": "1A758B66-ED5E-4DB7-A8FF-FE4EFA06001B",
+          "name": "Talking Heads",
+          "type": "urn:entity",
+          "affinity": 0.9421786966165046
+        },
+        {
+          "id": "7B4EDC5A-9779-4338-88DA-D5C415385511",
+          "name": "My Bloody Valentine",
+          "type": "urn:entity",
+          "affinity": 0.9408666441269672
+        },
+        {
+          "id": "CE859B17-DDB5-41B4-AEDC-B8DDA2F7CC1B",
+          "name": "Sonic Youth",
+          "type": "urn:entity",
+          "affinity": 0.9386192538494446
+        },
+        {
+          "id": "BA664156-6359-4906-B79E-41A679C68AE9",
+          "name": "Spiritualized",
+          "type": "urn:entity",
+          "affinity": 0.9383501900230932
+        }
+      ],
+      "places": [
+        {
+          "id": "DD6D8C2E-2134-49B2-8E7A-95207CF375BC",
+          "name": "abc carpet & home",
+          "type": "urn:entity",
+          "affinity": 0.9441348552832043
+        },
+        {
+          "id": "DCB6522D-5CB3-43A7-BF07-CDC7894AA30A",
+          "name": "Madame Brasserie",
+          "type": "urn:entity",
+          "affinity": 0.9411574677282356
+        },
+        {
+          "id": "A4BDA1AE-C4A7-4247-A06E-307FE0C06A83",
+          "name": "Tiffany & Co.",
+          "type": "urn:entity",
+          "affinity": 0.9398237464825194
+        },
+        {
+          "id": "038BB504-4A75-45F0-A3F6-A6212CD120A9",
+          "name": "Vivienne Westwood Worlds End",
+          "type": "urn:entity",
+          "affinity": 0.9396013081576645
+        },
+        {
+          "id": "AD65907C-E953-4CC6-83C1-1CBC39893D32",
+          "name": "Gucci",
+          "type": "urn:entity",
+          "affinity": 0.9380235153214592
+        },
+        {
+          "id": "FB60C6D6-83AB-46CB-BEFC-BB01F013D6B6",
+          "name": "John Varvatos",
+          "type": "urn:entity",
+          "affinity": 0.9355153520397572
+        }
+      ]
+    }
+  },
+  "brief": {
+    "title": "TasteForge cultural direction",
+    "objective": "Create a quiet-luxury launch campaign for a cinematic mobile LUT collection.",
+    "seed_statement": "Jil Sander × Brian Eno × Lost in Translation × Blade Runner",
+    "thesis": "Brand adjacency: Gucci, Louis Vuitton, Yves Saint Laurent. Cinematic language: Magnolia, Melancholia, Synecdoche, New York.",
+    "moves": [
+      {
+        "lane": "Creative tension",
+        "action": "Qloo returned an audience comparison, but TasteForge does not invent a bridge when the comparison has no named shared or differentiating affinities."
+      },
+      {
+        "lane": "Visual world",
+        "action": "Use the visual grammar suggested by Magnolia + Melancholia as references, not copies."
+      },
+      {
+        "lane": "Styling & brand fit",
+        "action": "Bias styling and partnerships toward the taste neighborhood around Gucci, Louis Vuitton, Yves Saint Laurent."
+      },
+      {
+        "lane": "Sound",
+        "action": "Build the sonic brief around the audience adjacency of Cocteau Twins, Björk, Talking Heads."
+      },
+      {
+        "lane": "Place & activation",
+        "action": "Use abc carpet & home, Madame Brasserie, Tiffany & Co. as place/activation references where context permits."
+      }
+    ],
+    "evidence_summary": {
+      "seed_count": 4,
+      "tag_count": 0,
+      "brand_count": 6,
+      "film_count": 6,
+      "artist_count": 6,
+      "place_count": 6,
+      "shared_affinity_count": 0,
+      "differentiator_count": 0
+    }
+  },
+  "trace": [
+    {
+      "step": null,
+      "operation": "describe",
+      "group": null,
+      "seed": null,
+      "target_type": "brand",
+      "status": "ok",
+      "result_count": 1,
+      "correlation_id": "qloo-muwf65sv-1",
+      "duration_ms": 163,
+      "warnings": [],
+      "provenance": {
+        "source": "Qloo API",
+        "endpoint": "/entities",
+        "documentation": "https://docs.qloo.com/reference/get-entities",
+        "requests": [
+          {
+            "method": "GET",
+            "path": "/entities",
+            "query": {
+              "entity_ids": [
+                "3DF8B961-F556-4735-9F95-F5CD836270B6"
+              ]
+            }
+          }
+        ],
+        "transport": "direct"
+      },
+      "code": null,
+      "layer": null,
+      "retryable": false
+    },
+    {
+      "step": null,
+      "operation": "describe",
+      "group": null,
+      "seed": null,
+      "target_type": "artist",
+      "status": "ok",
+      "result_count": 1,
+      "correlation_id": "qloo-muwf65xi-2",
+      "duration_ms": 55,
+      "warnings": [],
+      "provenance": {
+        "source": "Qloo API",
+        "endpoint": "/entities",
+        "documentation": "https://docs.qloo.com/reference/get-entities",
+        "requests": [
+          {
+            "method": "GET",
+            "path": "/entities",
+            "query": {
+              "entity_ids": [
+                "1B088E28-0668-4670-A97B-87865A1FCBCF"
+              ]
+            }
+          }
+        ],
+        "transport": "direct"
+      },
+      "code": null,
+      "layer": null,
+      "retryable": false
+    },
+    {
+      "step": null,
+      "operation": "describe",
+      "group": null,
+      "seed": null,
+      "target_type": "movie",
+      "status": "ok",
+      "result_count": 1,
+      "correlation_id": "qloo-muwf65z3-3",
+      "duration_ms": 916,
+      "warnings": [],
+      "provenance": {
+        "source": "Qloo API",
+        "endpoint": "/entities",
+        "documentation": "https://docs.qloo.com/reference/get-entities",
+        "requests": [
+          {
+            "method": "GET",
+            "path": "/entities",
+            "query": {
+              "entity_ids": [
+                "603C7E42-C952-45CB-8B6F-3B803FEFB2F7"
+              ]
+            }
+          }
+        ],
+        "transport": "direct"
+      },
+      "code": null,
+      "layer": null,
+      "retryable": false
+    },
+    {
+      "step": null,
+      "operation": "describe",
+      "group": null,
+      "seed": null,
+      "target_type": "movie",
+      "status": "ok",
+      "result_count": 1,
+      "correlation_id": "qloo-muwf66ok-4",
+      "duration_ms": 52,
+      "warnings": [],
+      "provenance": {
+        "source": "Qloo API",
+        "endpoint": "/entities",
+        "documentation": "https://docs.qloo.com/reference/get-entities",
+        "requests": [
+          {
+            "method": "GET",
+            "path": "/entities",
+            "query": {
+              "entity_ids": [
+                "A74A74BB-CE73-4A76-807B-8BD1714BC463"
+              ]
+            }
+          }
+        ],
+        "transport": "direct"
+      },
+      "code": null,
+      "layer": null,
+      "retryable": false
+    },
+    {
+      "step": null,
+      "operation": "entity_tags",
+      "group": null,
+      "seed": null,
+      "target_type": null,
+      "status": "error",
+      "result_count": null,
+      "correlation_id": null,
+      "duration_ms": null,
+      "warnings": [],
+      "provenance": null,
+      "code": "QLOO_RATE_LIMIT",
+      "layer": "qloo",
+      "retryable": true
+    },
+    {
+      "step": null,
+      "operation": "recommend",
+      "group": null,
+      "seed": null,
+      "target_type": "brand",
+      "status": "ok",
+      "result_count": 6,
+      "correlation_id": "qloo-muwf67d3-6",
+      "duration_ms": 501,
+      "warnings": [],
+      "provenance": {
+        "source": "Qloo API",
+        "endpoint": "/v2/insights",
+        "documentation": "https://docs.qloo.com/reference/insights-api-deep-dive",
+        "requests": [
+          {
+            "method": "GET",
+            "path": "/v2/insights",
+            "query": {
+              "filter.type": "urn:entity:brand",
+              "take": 6,
+              "signal.interests.entities": [
+                "3DF8B961-F556-4735-9F95-F5CD836270B6",
+                "1B088E28-0668-4670-A97B-87865A1FCBCF",
+                "603C7E42-C952-45CB-8B6F-3B803FEFB2F7",
+                "A74A74BB-CE73-4A76-807B-8BD1714BC463"
+              ],
+              "feature.explainability": true
+            }
+          }
+        ],
+        "transport": "direct"
+      },
+      "code": null,
+      "layer": null,
+      "retryable": false
+    },
+    {
+      "step": null,
+      "operation": "recommend",
+      "group": null,
+      "seed": null,
+      "target_type": "movie",
+      "status": "ok",
+      "result_count": 6,
+      "correlation_id": "qloo-muwf67r1-7",
+      "duration_ms": 1416,
+      "warnings": [],
+      "provenance": {
+        "source": "Qloo API",
+        "endpoint": "/v2/insights",
+        "documentation": "https://docs.qloo.com/reference/insights-api-deep-dive",
+        "requests": [
+          {
+            "method": "GET",
+            "path": "/v2/insights",
+            "query": {
+              "filter.type": "urn:entity:movie",
+              "take": 6,
+              "signal.interests.entities": [
+                "3DF8B961-F556-4735-9F95-F5CD836270B6",
+                "1B088E28-0668-4670-A97B-87865A1FCBCF",
+                "603C7E42-C952-45CB-8B6F-3B803FEFB2F7",
+                "A74A74BB-CE73-4A76-807B-8BD1714BC463"
+              ],
+              "feature.explainability": true
+            }
+          }
+        ],
+        "transport": "direct"
+      },
+      "code": null,
+      "layer": null,
+      "retryable": false
+    },
+    {
+      "step": null,
+      "operation": "recommend",
+      "group": null,
+      "seed": null,
+      "target_type": "artist",
+      "status": "ok",
+      "result_count": 6,
+      "correlation_id": "qloo-muwf68ue-8",
+      "duration_ms": 3593,
+      "warnings": [],
+      "provenance": {
+        "source": "Qloo API",
+        "endpoint": "/v2/insights",
+        "documentation": "https://docs.qloo.com/reference/insights-api-deep-dive",
+        "requests": [
+          {
+            "method": "GET",
+            "path": "/v2/insights",
+            "query": {
+              "filter.type": "urn:entity:artist",
+              "take": 6,
+              "signal.interests.entities": [
+                "3DF8B961-F556-4735-9F95-F5CD836270B6",
+                "1B088E28-0668-4670-A97B-87865A1FCBCF",
+                "603C7E42-C952-45CB-8B6F-3B803FEFB2F7",
+                "A74A74BB-CE73-4A76-807B-8BD1714BC463"
+              ],
+              "feature.explainability": true
+            }
+          }
+        ],
+        "transport": "direct"
+      },
+      "code": null,
+      "layer": null,
+      "retryable": false
+    },
+    {
+      "step": null,
+      "operation": "recommend",
+      "group": null,
+      "seed": null,
+      "target_type": "place",
+      "status": "ok",
+      "result_count": 6,
+      "correlation_id": "qloo-muwf6bm8-9",
+      "duration_ms": 1278,
+      "warnings": [],
+      "provenance": {
+        "source": "Qloo API",
+        "endpoint": "/v2/insights",
+        "documentation": "https://docs.qloo.com/reference/insights-api-deep-dive",
+        "requests": [
+          {
+            "method": "GET",
+            "path": "/v2/insights",
+            "query": {
+              "filter.type": "urn:entity:place",
+              "take": 6,
+              "signal.interests.entities": [
+                "3DF8B961-F556-4735-9F95-F5CD836270B6",
+                "1B088E28-0668-4670-A97B-87865A1FCBCF",
+                "603C7E42-C952-45CB-8B6F-3B803FEFB2F7",
+                "A74A74BB-CE73-4A76-807B-8BD1714BC463"
+              ],
+              "feature.explainability": true
+            }
+          }
+        ],
+        "transport": "direct"
+      },
+      "code": null,
+      "layer": null,
+      "retryable": false
+    },
+    {
+      "step": null,
+      "operation": "compare_audiences",
+      "group": null,
+      "seed": null,
+      "target_type": "brand",
+      "status": "ok",
+      "result_count": null,
+      "correlation_id": "qloo-muwf6clr-a",
+      "duration_ms": 109,
+      "warnings": [],
+      "provenance": {
+        "source": "Qloo API",
+        "endpoint": "/v2/analysis/compare",
+        "documentation": "https://docs.qloo.com/reference/analysis-compare",
+        "requests": [
+          {
+            "method": "GET",
+            "path": "/v2/analysis/compare",
+            "query": {
+              "a.signal.interests.entities": [
+                "3DF8B961-F556-4735-9F95-F5CD836270B6",
+                "1B088E28-0668-4670-A97B-87865A1FCBCF"
+              ],
+              "b.signal.interests.entities": [
+                "603C7E42-C952-45CB-8B6F-3B803FEFB2F7",
+                "A74A74BB-CE73-4A76-807B-8BD1714BC463"
+              ],
+              "take": 6,
+              "filter.type": "urn:entity:brand"
+            }
+          }
+        ],
+        "transport": "direct"
+      },
+      "code": null,
+      "layer": null,
+      "retryable": false
+    }
+  ]
+}

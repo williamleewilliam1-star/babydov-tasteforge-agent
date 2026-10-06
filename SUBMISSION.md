@@ -45,7 +45,7 @@ The screenshot intentionally shows the credential-pending state. It contains no 
 Suggested example:
 
 - Objective: quiet-luxury campaign for a cinematic mobile LUT collection.
-- Typed seeds: Jil Sander (brand), Brian Eno (artist), Lost in Translation (movie), Kyoto (place).
+- Typed seeds: Jil Sander (brand), Brian Eno (artist), Lost in Translation (movie), Blade Runner (movie).
 - Market: Tokyo + global creative audience.
 - Output: cultural tags + cross-domain taste map + campaign moves + exact Qloo workflow trace.
 
