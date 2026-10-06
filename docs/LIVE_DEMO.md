@@ -2,7 +2,7 @@
 
 The Qloo hackathon submission guide asks for a redacted request-to-result explanation, including entity/tag choices, provenance, and known limitations.
 
-TasteForge prepares that evidence with one command after the event API key arrives.
+TasteForge prepares that evidence with one command once the issued event API key is available in the local/server environment.
 
 ## Run
 
@@ -41,4 +41,4 @@ A regression test injects credential-shaped fields at multiple levels and assert
 
 ## Pending
 
-No live artifact is committed yet because the Qloo event key has not arrived. Do not substitute fixture output for a real Qloo result in the final submission.
+The Qloo event key was issued on 2026-10-06. No live artifact is committed yet because the final production-secret installation and real end-to-end run have not been completed. Do not substitute fixture output for a real Qloo result in the final submission.

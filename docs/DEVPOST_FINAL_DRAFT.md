@@ -1,6 +1,6 @@
 # TasteForge Agent — Devpost final draft
 
-> Status: field-ready draft. Do **not** finalize Devpost until the real Qloo event key has produced the live artifact and the public deployment reports `qloo_configured=true`.
+> Status: event key issued; deterministic runtime and 14/14 tests pass. Do **not** treat the submission as final until a real Qloo run has produced the redacted live artifact and the public deployment reports `qloo_configured=true`.
 
 ## Project name
 
@@ -113,8 +113,8 @@ A judge can inspect the cultural tags, cross-domain recommendations, Creative Te
 
 ## Current limitation before finalization
 
-The public app is already deployed and reachable, but Qloo execution remains intentionally disabled until the personal hackathon event key is delivered. The final Devpost submission must only be finalized after:
-1. the event key is installed as a Vercel server-side secret;
+The public app is already deployed and reachable, and the Qloo event key was issued on 2026-10-06. Qloo execution remains intentionally disabled on the public deployment until that credential is installed server-side. The final Devpost submission must only be treated as judge-ready after:
+1. the issued event key is installed as a Vercel server-side secret;
 2. a real four-seed Qloo run succeeds;
 3. the redacted live artifact is generated;
 4. the deployment recorder verifies `qloo_configured=true`;

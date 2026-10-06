@@ -1,6 +1,6 @@
 # Public deployment status
 
-Verified on 2026-10-03.
+Pre-key deployment verified on 2026-10-03. Qloo event credential issued on 2026-10-06.
 
 ## Public URL
 
@@ -14,7 +14,7 @@ The production deployment is publicly reachable without Vercel authentication:
 - `/api/forge` returns HTTP 200 JSON health.
 - deployed service reports `integration=@qloo/qloo-harness`;
 - deployed harness version reports `0.1.26`;
-- `qloo_configured=false` until the personal hackathon key is delivered.
+- `qloo_configured=false` until the issued hackathon key is installed as a production server-side secret and the deployment is rebuilt.
 
 This is intentionally **not** the final deployment receipt used by the strict submission gate.
 
@@ -22,7 +22,7 @@ This is intentionally **not** the final deployment receipt used by the strict su
 
 ## Next deployment transition
 
-After the event key arrives:
+The event key has now been issued. The remaining production transition is:
 
 1. set `QLOO_API_KEY` only in Vercel environment secrets;
 2. set both Qloo base URLs to `https://hackathon.api.qloo.com`;
