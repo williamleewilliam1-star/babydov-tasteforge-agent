@@ -23,7 +23,8 @@ function cleanTrace(rows) {
     provenance: row?.provenance || null,
     code: row?.code || null,
     layer: row?.layer || null,
-    retryable: Boolean(row?.retryable)
+    retryable: Boolean(row?.retryable),
+    retry_count: Number.isFinite(Number(row?.retry_count)) ? Number(row.retry_count) : 0
   }));
 }
 export function buildSubmissionArtifact(input, result) {

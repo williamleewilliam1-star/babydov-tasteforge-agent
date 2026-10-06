@@ -106,9 +106,10 @@ The deterministic test suite does not require an API key. It injects a fake impl
 - one failed domain does not fabricate evidence
 - ambiguous/unresolved seeds block synthesis
 - explicit seed types are preserved and passed to the official Qloo describe workflow
+- one transient Qloo rate limit is retried once before the workflow fails closed
 - creative brief missing-data behavior
 
-Live Qloo tests are added only after the hackathon key is available and must never print the key.
+The production live run is preserved as a redacted artifact and screenshot. It never prints or serializes the Qloo key.
 
 The live submission artifact workflow is documented in `docs/LIVE_DEMO.md`. It allowlists evidence/provenance fields and excludes credentials by construction.
 
@@ -136,7 +137,7 @@ Qloo Agentic Hackathon · Sep 30–Oct 30, 2026.
 
 API-key request: fulfilled on 2026-10-06. The issued key is installed server-side only and is not committed to the repository.
 
-Public deployment: https://babydov-tasteforge-agent.vercel.app — reachable now and reporting `qloo_configured=true`. See `docs/DEPLOYMENT_STATUS.md`.
+Public deployment: https://babydov-tasteforge-agent.vercel.app — reachable now and reporting `qloo_configured=true`. The verified live run resolved 4/4 typed seeds, recorded 10 official workflow steps, rendered the Creative Tension Map, and passes the strict submission gate. Evidence: `artifacts/qloo-live-demo.json`, `artifacts/deployment.json`, and `docs/tasteforge-live-result.png`. See `docs/DEPLOYMENT_STATUS.md`.
 
 ## License
 

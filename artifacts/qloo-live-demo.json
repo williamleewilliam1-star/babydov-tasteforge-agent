@@ -1,6 +1,6 @@
 {
   "schema": "tasteforge.live_demo.v1",
-  "generated_at": "2026-10-06T08:31:28.446Z",
+  "generated_at": "2026-10-06T08:39:22.805Z",
   "input": {
     "objective": "Create a quiet-luxury launch campaign for a cinematic mobile LUT collection.",
     "market": "Tokyo + global creative audience",
@@ -52,7 +52,56 @@
       }
     ],
     "groups": {
-      "tags": [],
+      "tags": [
+        {
+          "id": "urn:tag:content:qloo:accessible",
+          "name": "Accessible",
+          "type": "urn:tag:content:qloo",
+          "affinity": 1
+        },
+        {
+          "id": "urn:tag:specialty_dish:place:omakase",
+          "name": "Omakase",
+          "type": "urn:tag:specialty_dish:place",
+          "affinity": 1
+        },
+        {
+          "id": "urn:tag:cost_description:place:inexpensive",
+          "name": "Inexpensive",
+          "type": "urn:tag:cost_description:place",
+          "affinity": 1
+        },
+        {
+          "id": "urn:tag:hotel_rating:place:five_star",
+          "name": "Five Star",
+          "type": "urn:tag:hotel_rating:place",
+          "affinity": 1
+        },
+        {
+          "id": "urn:tag:specialty_dish:place:ahi_tuna_tacos",
+          "name": "Ahi Tuna Tacos",
+          "type": "urn:tag:specialty_dish:place",
+          "affinity": 1
+        },
+        {
+          "id": "urn:tag:inclusivity:place:identifies_as_women_owned",
+          "name": "Identifies as women-owned",
+          "type": "urn:tag:inclusivity:place",
+          "affinity": 1
+        },
+        {
+          "id": "urn:tag:category:qloo:fashion_designers",
+          "name": "Fashion Designers",
+          "type": "urn:tag:category:qloo",
+          "affinity": 0.9999876992717969
+        },
+        {
+          "id": "urn:tag:genre:media:fashion",
+          "name": "Fashion",
+          "type": "urn:tag:genre:media",
+          "affinity": 0.9987834549878345
+        }
+      ],
       "brands": [
         {
           "id": "84B18312-3C2B-41A9-863B-89651C2F6A2C",
@@ -211,7 +260,7 @@
     "title": "TasteForge cultural direction",
     "objective": "Create a quiet-luxury launch campaign for a cinematic mobile LUT collection.",
     "seed_statement": "Jil Sander × Brian Eno × Lost in Translation × Blade Runner",
-    "thesis": "Brand adjacency: Gucci, Louis Vuitton, Yves Saint Laurent. Cinematic language: Magnolia, Melancholia, Synecdoche, New York.",
+    "thesis": "Cultural codes: Accessible, Omakase, Inexpensive, Five Star. Brand adjacency: Gucci, Louis Vuitton, Yves Saint Laurent. Cinematic language: Magnolia, Melancholia, Synecdoche, New York.",
     "moves": [
       {
         "lane": "Creative tension",
@@ -236,7 +285,7 @@
     ],
     "evidence_summary": {
       "seed_count": 4,
-      "tag_count": 0,
+      "tag_count": 8,
       "brand_count": 6,
       "film_count": 6,
       "artist_count": 6,
@@ -254,8 +303,8 @@
       "target_type": "brand",
       "status": "ok",
       "result_count": 1,
-      "correlation_id": "qloo-muwf65sv-1",
-      "duration_ms": 163,
+      "correlation_id": "qloo-muwfg9pq-1",
+      "duration_ms": 241,
       "warnings": [],
       "provenance": {
         "source": "Qloo API",
@@ -276,7 +325,8 @@
       },
       "code": null,
       "layer": null,
-      "retryable": false
+      "retryable": false,
+      "retry_count": 0
     },
     {
       "step": null,
@@ -286,8 +336,8 @@
       "target_type": "artist",
       "status": "ok",
       "result_count": 1,
-      "correlation_id": "qloo-muwf65xi-2",
-      "duration_ms": 55,
+      "correlation_id": "qloo-muwfg9ww-2",
+      "duration_ms": 59,
       "warnings": [],
       "provenance": {
         "source": "Qloo API",
@@ -308,7 +358,8 @@
       },
       "code": null,
       "layer": null,
-      "retryable": false
+      "retryable": false,
+      "retry_count": 0
     },
     {
       "step": null,
@@ -318,8 +369,8 @@
       "target_type": "movie",
       "status": "ok",
       "result_count": 1,
-      "correlation_id": "qloo-muwf65z3-3",
-      "duration_ms": 916,
+      "correlation_id": "qloo-muwfg9yk-3",
+      "duration_ms": 1076,
       "warnings": [],
       "provenance": {
         "source": "Qloo API",
@@ -340,7 +391,8 @@
       },
       "code": null,
       "layer": null,
-      "retryable": false
+      "retryable": false,
+      "retry_count": 0
     },
     {
       "step": null,
@@ -350,8 +402,8 @@
       "target_type": "movie",
       "status": "ok",
       "result_count": 1,
-      "correlation_id": "qloo-muwf66ok-4",
-      "duration_ms": 52,
+      "correlation_id": "qloo-muwfgash-4",
+      "duration_ms": 48,
       "warnings": [],
       "provenance": {
         "source": "Qloo API",
@@ -372,7 +424,8 @@
       },
       "code": null,
       "layer": null,
-      "retryable": false
+      "retryable": false,
+      "retry_count": 0
     },
     {
       "step": null,
@@ -380,15 +433,37 @@
       "group": null,
       "seed": null,
       "target_type": null,
-      "status": "error",
-      "result_count": null,
-      "correlation_id": null,
-      "duration_ms": null,
+      "status": "ok",
+      "result_count": 8,
+      "correlation_id": "qloo-muwfgcfb-6",
+      "duration_ms": 2216,
       "warnings": [],
-      "provenance": null,
-      "code": "QLOO_RATE_LIMIT",
-      "layer": "qloo",
-      "retryable": true
+      "provenance": {
+        "source": "Qloo API",
+        "endpoint": "/v2/insights",
+        "documentation": "https://docs.qloo.com/reference/taste-analysis",
+        "requests": [
+          {
+            "method": "GET",
+            "path": "/v2/insights",
+            "query": {
+              "filter.type": "urn:tag",
+              "signal.interests.entities": [
+                "3DF8B961-F556-4735-9F95-F5CD836270B6",
+                "1B088E28-0668-4670-A97B-87865A1FCBCF",
+                "603C7E42-C952-45CB-8B6F-3B803FEFB2F7",
+                "A74A74BB-CE73-4A76-807B-8BD1714BC463"
+              ],
+              "take": 8
+            }
+          }
+        ],
+        "transport": "direct"
+      },
+      "code": null,
+      "layer": null,
+      "retryable": false,
+      "retry_count": 1
     },
     {
       "step": null,
@@ -398,8 +473,8 @@
       "target_type": "brand",
       "status": "ok",
       "result_count": 6,
-      "correlation_id": "qloo-muwf67d3-6",
-      "duration_ms": 501,
+      "correlation_id": "qloo-muwfge4v-7",
+      "duration_ms": 147,
       "warnings": [],
       "provenance": {
         "source": "Qloo API",
@@ -426,7 +501,8 @@
       },
       "code": null,
       "layer": null,
-      "retryable": false
+      "retryable": false,
+      "retry_count": 0
     },
     {
       "step": null,
@@ -436,8 +512,8 @@
       "target_type": "movie",
       "status": "ok",
       "result_count": 6,
-      "correlation_id": "qloo-muwf67r1-7",
-      "duration_ms": 1416,
+      "correlation_id": "qloo-muwfge8z-8",
+      "duration_ms": 1413,
       "warnings": [],
       "provenance": {
         "source": "Qloo API",
@@ -464,7 +540,8 @@
       },
       "code": null,
       "layer": null,
-      "retryable": false
+      "retryable": false,
+      "retry_count": 0
     },
     {
       "step": null,
@@ -474,8 +551,8 @@
       "target_type": "artist",
       "status": "ok",
       "result_count": 6,
-      "correlation_id": "qloo-muwf68ue-8",
-      "duration_ms": 3593,
+      "correlation_id": "qloo-muwfgfc9-9",
+      "duration_ms": 3059,
       "warnings": [],
       "provenance": {
         "source": "Qloo API",
@@ -502,7 +579,8 @@
       },
       "code": null,
       "layer": null,
-      "retryable": false
+      "retryable": false,
+      "retry_count": 0
     },
     {
       "step": null,
@@ -512,8 +590,8 @@
       "target_type": "place",
       "status": "ok",
       "result_count": 6,
-      "correlation_id": "qloo-muwf6bm8-9",
-      "duration_ms": 1278,
+      "correlation_id": "qloo-muwfghpa-a",
+      "duration_ms": 1230,
       "warnings": [],
       "provenance": {
         "source": "Qloo API",
@@ -540,7 +618,8 @@
       },
       "code": null,
       "layer": null,
-      "retryable": false
+      "retryable": false,
+      "retry_count": 0
     },
     {
       "step": null,
@@ -550,8 +629,8 @@
       "target_type": "brand",
       "status": "ok",
       "result_count": null,
-      "correlation_id": "qloo-muwf6clr-a",
-      "duration_ms": 109,
+      "correlation_id": "qloo-muwfgini-b",
+      "duration_ms": 70,
       "warnings": [],
       "provenance": {
         "source": "Qloo API",
@@ -579,7 +658,8 @@
       },
       "code": null,
       "layer": null,
-      "retryable": false
+      "retryable": false,
+      "retry_count": 0
     }
   ]
 }

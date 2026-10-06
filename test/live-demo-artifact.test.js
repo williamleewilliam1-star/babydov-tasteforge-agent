@@ -32,6 +32,7 @@ test("live demo artifact allowlists evidence and drops credential-shaped fields"
         operation: "describe",
         status: "ok",
         correlation_id: "corr-1",
+        retry_count: 1,
         provenance: { endpoint: "https://hackathon.api.qloo.com" },
         credential: "trace-secret",
         api_key: "trace-api-secret"
@@ -48,5 +49,6 @@ test("live demo artifact allowlists evidence and drops credential-shaped fields"
   }
   assert.equal(artifact.integration.harness_version, "0.1.26");
   assert.equal(artifact.trace[0].correlation_id, "corr-1");
+  assert.equal(artifact.trace[0].retry_count, 1);
   assert.equal(artifact.evidence.groups.tags[0].name, "Tag");
 });

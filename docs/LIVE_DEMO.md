@@ -1,10 +1,42 @@
 # TasteForge live demo artifact
 
-The Qloo hackathon submission guide asks for a redacted request-to-result explanation, including entity/tag choices, provenance, and known limitations.
+The Qloo hackathon submission guide asks for a redacted request-to-result explanation, including entity choices, provenance, and known limitations.
 
-TasteForge prepares that evidence with one command once the issued event API key is available in the local/server environment.
+## Verified live run
 
-## Run
+A real production Qloo run completed successfully on **2026-10-06** against:
+
+https://babydov-tasteforge-agent.vercel.app
+
+Input:
+
+- objective: quiet-luxury launch campaign for a cinematic mobile LUT collection;
+- market: Tokyo + global creative audience;
+- Jil Sander — `brand`;
+- Brian Eno — `artist`;
+- Lost in Translation — `movie`;
+- Blade Runner — `movie`.
+
+Observed production result:
+
+- all **4/4 typed seeds resolved**;
+- **10 official Qloo workflow steps** recorded;
+- `describe`: 4/4 successful;
+- `entity_tags`: successful after one transparent retry of a transient Qloo 429;
+- `recommend`: brand / movie / artist / place all successful, 6 results each;
+- `compare_audiences`: successful;
+- Creative Tension Map: available;
+- public UI completed with `Complete. 10 agent steps recorded.`.
+
+Durable evidence:
+
+- redacted workflow artifact: `artifacts/qloo-live-demo.json`;
+- deployment receipt: `artifacts/deployment.json`;
+- result-state screenshot: `docs/tasteforge-live-result.png`.
+
+![TasteForge live Qloo result](tasteforge-live-result.png)
+
+## Reproduce
 
 Keep the Qloo key only in the server/local environment:
 
@@ -16,17 +48,18 @@ npm run verify:qloo
 npm run demo:live -- artifacts/qloo-live-demo.json
 ```
 
-The output file is created with exclusive-write semantics. The script refuses to overwrite an existing artifact.
+The live-demo script uses explicit Qloo entity types for the default judge flow so the four cultural references are resolved deterministically.
+
 ## What is included
 
 The artifact allowlists:
 
-- campaign objective, market context, and up to four cultural seeds;
+- campaign objective, market context, and up to four cultural seed names;
 - harness / workflow-contract / result-schema versions;
 - normalized Qloo seed and cross-domain evidence;
 - TasteForge creative brief;
 - workflow operation names and statuses;
-- correlation IDs, durations, warnings, and provenance.
+- correlation IDs, durations, warnings, retry counts, and provenance.
 
 ## What is excluded
 
@@ -39,6 +72,12 @@ The builder never copies arbitrary request/result objects. It does not include:
 
 A regression test injects credential-shaped fields at multiple levels and asserts they are absent from the serialized artifact.
 
-## Pending
+## Final gate
 
-The Qloo event key was issued on 2026-10-06. No live artifact is committed yet because the final production-secret installation and real end-to-end run have not been completed. Do not substitute fixture output for a real Qloo result in the final submission.
+The strict submission gate now passes:
+
+```bash
+npm run submission:strict
+```
+
+Result: `ready=true` with the live Qloo artifact, verified external deployment, and demo media all present.

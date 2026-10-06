@@ -1,6 +1,6 @@
 # TasteForge Agent — Devpost final draft
 
-> Status: event key issued; deterministic runtime and 17/17 tests pass. Do **not** treat the submission as final until a real Qloo run has produced the redacted live artifact and the public deployment reports `qloo_configured=true`.
+> Status: **judge-ready**. The production Qloo credential is server-side, 17/17 deterministic tests pass, the real typed four-seed Qloo run succeeded, the redacted artifact and deployment receipt are committed, and `npm run submission:strict` returns `ready=true`.
 
 ## Project name
 
@@ -113,14 +113,15 @@ Market:
 
 A judge can inspect the cultural tags, cross-domain recommendations, Creative Tension Map, campaign moves and exact Qloo operation trace in one run.
 
-## Current limitation before finalization
+## Verified live evidence
 
-The public app is already deployed and reachable, and the Qloo event key was issued on 2026-10-06. Qloo execution remains intentionally disabled on the public deployment until that credential is installed server-side. The final Devpost submission must only be treated as judge-ready after:
-1. the issued event key is installed as a Vercel server-side secret;
-2. a real four-seed Qloo run succeeds;
-3. the redacted live artifact is generated;
-4. the deployment recorder verifies `qloo_configured=true`;
-5. `npm run submission:strict` returns `ready=true`.
+On 2026-10-06 the public Vercel deployment completed the real typed judge flow with all four seeds resolved. The trace recorded 10 official Qloo workflow steps; `compare_audiences` succeeded and the Creative Tension Map rendered. A transient Qloo 429 on `entity_tags` was recovered by the bounded one-shot retry path and remains visible in the redacted audit artifact.
+
+Evidence:
+- `artifacts/qloo-live-demo.json` — redacted request-to-result workflow evidence;
+- `artifacts/deployment.json` — HTTP 200 / `qloo_configured=true` deployment receipt;
+- `docs/tasteforge-live-result.png` — captured public result state;
+- `npm run submission:strict` — `ready=true`.
 
 ## Judging alignment
 

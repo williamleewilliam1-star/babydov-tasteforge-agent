@@ -34,11 +34,13 @@ The application does not silently switch to another transport after Qloo failure
 
 ## Demo media
 
-Current credential-safe UI screenshot:
+Verified public result state:
 
-![TasteForge credential-ready UI](docs/tasteforge-ui-ready.png)
+![TasteForge live Qloo result](docs/tasteforge-live-result.png)
 
-The screenshot intentionally shows the credential-pending state. It contains no API key, personal data, or fabricated Qloo result. A second result-state screenshot/video will be captured only after the real event key produces a live Qloo run.
+The screenshot was captured from the production deployment after a real typed four-seed Qloo run completed with 10 recorded workflow steps and a visible Creative Tension Map. It contains no API key or private credential.
+
+Pre-key UI evidence is retained separately at `docs/tasteforge-ui-ready.png` for provenance.
 
 ## Demo flow
 
@@ -100,7 +102,7 @@ brief + normalized evidence + trace
 - Seed resolution can be ambiguous when a short name maps to multiple cultural entities; the demo now sends explicit Qloo entity types to make the default judge flow deterministic.
 - The current brief is intentionally compact and does not replace human brand/legal review.
 - The MVP stores no history, user profile, or campaign workspace.
-- Final live provenance is in progress after the event API key was issued on 2026-10-06; the public deployment is already Qloo-configured.
+- The real typed four-seed production run is complete and preserved in `artifacts/qloo-live-demo.json`; transient Qloo rate limits are retried once and otherwise fail closed.
 
 ## Reproducibility
 
@@ -134,6 +136,6 @@ The final redacted live-run artifact records workflow IDs, result status/count, 
 - Official Qloo workflow migration: merged to main and CI-validated.
 - Redacted live-demo artifact tooling: ready and tested.
 - Judging-criteria alignment: documented and machine-checked.
-- Real Qloo live artifact: pending completion of the typed four-seed live run.
+- Real Qloo live artifact: complete; 4/4 seeds resolved, 10 workflow steps recorded, `compare_audiences` successful.
 - Public Vercel deployment: live at `https://babydov-tasteforge-agent.vercel.app`; current health reports `qloo_configured=true`.
-- Strict final gate intentionally remains blocked until the real live artifact exists and the same public deployment is re-verified with `qloo_configured=true`.
+- Strict final gate: PASS — `npm run submission:strict` returns `ready=true`.
