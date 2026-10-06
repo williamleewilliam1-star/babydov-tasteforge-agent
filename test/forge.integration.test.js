@@ -130,6 +130,40 @@ test("typed seed inputs disambiguate official describe workflows", async () => {
   ]);
 });
 
+test("transient Qloo rate limit is retried once", async () => {
+  const executor = fakeExecutor();
+  const original = executor.execute.bind(executor);
+  let attempts = 0;
+  let injected = false;
+
+  executor.execute = async (operation, input) => {
+    attempts += 1;
+    if (!injected && operation === "describe" && input.entity === "Jil Sander") {
+      injected = true;
+      const error = new Error("fixture rate limit");
+      error.code = "QLOO_RATE_LIMIT";
+      error.layer = "qloo";
+      error.retryable = true;
+      error.recovery = "wait and retry";
+      throw error;
+    }
+    return original(operation, input);
+  };
+
+  const result = await executeAgent({
+    seeds: [
+      { name: "Jil Sander", type: "brand" },
+      { name: "Brian Eno", type: "artist" }
+    ],
+    objective: "Build a campaign",
+    market: "Tokyo"
+  }, { executor });
+
+  assert.equal(result.seeds.length, 2);
+  assert.equal(result.trace[0].retry_count, 1);
+  assert.equal(attempts, 8);
+});
+
 test("one failed official workflow does not fabricate that domain", async () => {
   const executor = fakeExecutor({ failTarget: "brand" });
   const result = await executeAgent({

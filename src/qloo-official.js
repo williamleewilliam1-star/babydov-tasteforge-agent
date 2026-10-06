@@ -58,14 +58,40 @@ function errorTrace(operation, error, extra = {}) {
   };
 }
 
+const QLOO_RATE_LIMIT_RETRY_MS = 1200;
+
+function wait(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 async function run(executor, operation, input, trace, extra = {}) {
-  try {
-    const execution = await executor.execute(operation, input);
-    trace.push(successTrace(execution, extra));
-    return execution.result;
-  } catch (error) {
-    trace.push(errorTrace(operation, error, extra));
-    throw error;
+  let retryCount = 0;
+  while (true) {
+    try {
+      const execution = await executor.execute(operation, input);
+      trace.push({
+        ...successTrace(execution, extra),
+        retry_count: retryCount
+      });
+      return execution.result;
+    } catch (error) {
+      const canRetryRateLimit =
+        retryCount === 0 &&
+        error?.code === "QLOO_RATE_LIMIT" &&
+        error?.retryable === true;
+
+      if (canRetryRateLimit) {
+        retryCount = 1;
+        await wait(QLOO_RATE_LIMIT_RETRY_MS);
+        continue;
+      }
+
+      trace.push({
+        ...errorTrace(operation, error, extra),
+        retry_count: retryCount
+      });
+      throw error;
+    }
   }
 }
 
